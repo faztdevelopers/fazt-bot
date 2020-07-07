@@ -1,0 +1,30 @@
+{
+  "name": "fazt-bot",
+  "version": "1.0.0",
+  "description": "Fazt for Discord Fazt Tech community",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node-dev --respawn --transpileOnly ./src/index.ts",
+    "start": "npm run build && node ./dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faztdevelopers/fazt-bot.git"
+  },
+  "author": "Fazt Community",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/faztdevelopers/fazt-bot/issues"
+  },
+  "homepage": "https://github.com/faztdevelopers/fazt-bot#readme",
+  "dependencies": {
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.19",
+    "ts-node-dev": "^1.0.0-pre.50",
+    "typescript": "^3.9.6"
+  }
+}
