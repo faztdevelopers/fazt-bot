@@ -1,6 +1,7 @@
 import Command, { sendMessage, deleteMessage } from '../command';
 import { Message, MessageEmbed, GuildChannel, TextChannel, Client } from 'discord.js';
 import { getByName } from '../../utils/settings';
+import SuggestionEmbed from 'embeds/SuggestionEmbed';
 
 const Suggest: Command = {
   format: /^(?<command>(sugerencia|suggestion)+(\s(?<message>[\s\S]+))?)/,
@@ -27,13 +28,7 @@ const Suggest: Command = {
         return;
       }
 
-      const msg = await (suggestionChannel as TextChannel).send(
-        new MessageEmbed()
-          .setTitle('Nueva sugerencia')
-          .setColor('#009688')
-          .setDescription(`${params.message}\r\n\r\n**Sugerencia por: ** ${message.author} (${message.author.username})`)
-          .setTimestamp(Date.now())
-      );
+      const msg = await (suggestionChannel as TextChannel).send(new SuggestionEmbed(params.message, message.author));
 
       deleteMessage(await sendMessage(message, `Tu sugerencia se ha enviado a ${(suggestionChannel as TextChannel)}.`, params.command));
 

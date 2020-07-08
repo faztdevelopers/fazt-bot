@@ -117,7 +117,7 @@ export default class SearchCommand implements Command {
         if (yt == null) {
           await sendMessage(message, 'el API excedió el límite de peticiones.', params.command);
         } else {
-          await this.execute(message, params);
+          await this.onCommand(message, bot, params);
         }
 
         return;

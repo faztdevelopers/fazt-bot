@@ -13,7 +13,7 @@ export default class CommandsList implements Command {
         return;
       }
 
-      await message.channel.send(new BotDescriptionEmbed(client.user?.username, prefix).embed);
+      await message.channel.send(new BotDescriptionEmbed(client.user?.username, prefix));
 
     } catch (error) {
       console.error('Commands Lists', error);
