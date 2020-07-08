@@ -11,12 +11,12 @@ const Suggest: Command = {
         return;
       }
 
-      const channelID: string = (await getByName('suggestion_channel')).value || '';
+      const channelID: string = (await getByName('suggestion_channel'))?.value || '';
       if (!channelID.length) {
         return;
       }
 
-      const suggestionChannel: GuildChannel = message.guild.channels.cache.get(channelID);
+      const suggestionChannel: GuildChannel | undefined = message.guild.channels.cache.get(channelID);
       if (!suggestionChannel || !((o: GuildChannel): o is TextChannel => o.type === 'text')) {
         return;
       }
