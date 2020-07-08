@@ -14,11 +14,14 @@ const CommandsList: Command = {
         new MessageEmbed()
           .setTitle(`${bot.user?.username}: Lista de comandos`)
           .setColor('#009688')
-          .setDescription(`Prefijo: ${prefix}`),
+          .setDescription(
+            `**${prefix}help/info/commands/comandos**\r\nMira la lista de comandos\r\n\r\n` +
+            `**${prefix}suggestion/sugerencia [sugerencia]**\r\nColoca una sugerencia en el canal de sugerencias.`
+          ),
       );
     } catch (error) {
       console.error('Commands Lists', error);
-    }
+    } /// Wja
   },
 };
 
