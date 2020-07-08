@@ -23,7 +23,7 @@ bot.on('message', async (message) => {
   if (Commands.length) {
     for await (let command of Commands) {
       if (command.format.test(msg.toLowerCase())) {
-        await command.execute(message, msg.match(command.format)?.groups || {})
+        await command.onCommand(message, bot, msg.match(command.format)?.groups || {})
       }
     }
   }

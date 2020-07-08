@@ -1,11 +1,10 @@
 import Command, { sendMessage, deleteMessage } from '../command';
-import { Message, MessageEmbed, GuildChannel, TextChannel } from 'discord.js';
+import { Message, MessageEmbed, GuildChannel, TextChannel, Client } from 'discord.js';
 import { getByName } from '../../utils/settings';
-import { bot } from '../..';
 
 const Suggest: Command = {
   format: /^(?<command>(sugerencia|suggestion)+(\s(?<message>[\s\S]+))?)/,
-  execute: async (message: Message, params: { [key: string]: string }): Promise<void> => {
+  async onCommand(message: Message, bot: Client, params: { [key: string]: string }): Promise<void> {
     try {
       if (!message.guild) {
         return;

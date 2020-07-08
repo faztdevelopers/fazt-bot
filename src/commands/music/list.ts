@@ -1,11 +1,13 @@
 import Command, { deleteMessage, sendMessage } from '../command';
-import { Message, MessageEmbed } from 'discord.js';
+import { Message, MessageEmbed, Client } from 'discord.js';
 import * as YouTube from '../../utils/music';
 import { bot } from '../..';
 
-const List: Command = {
-  format: /^((?<command>(list|queue|lista))+(\s(?<page>\d+))?)$/,
-  execute: async (message: Message, params: { [key: string]: string }) => {
+export default class ListCommand implements Command {
+
+  format = /^((?<command>(list|queue|lista))+(\s(?<page>\d+))?)$/
+
+  async onCommand(message: Message, bot: Client, params: {[key: string]: string}) {
     try {
       if (!message.guild) {
         return;
@@ -61,7 +63,5 @@ const List: Command = {
     } catch (error) {
       console.error('Queue Command', error);
     }
-  },
-};
-
-export default List;
+  }
+}

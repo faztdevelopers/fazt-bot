@@ -2,7 +2,7 @@ import Command from './command';
 import * as nPath from 'path';
 import * as fs from 'fs';
 
-const Commands: Command[] = [];
+const Commands: Array<Command> = [];
 const paths: string[] = [
   'developers',
   'general',
@@ -19,10 +19,9 @@ if (paths.length) {
           continue;
         }
 
-        const command = require(`./${path}/${fileName}`).default;
-        if (command && command.format && typeof command.execute === 'function') {
-          Commands.push(command);
-        }
+        const Command = require(`./${path}/${fileName}`);
+        const command = new Command();
+        Commands.push(command);
       }
     }
   }

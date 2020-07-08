@@ -1,10 +1,12 @@
 import Command, { sendMessage, deleteMessage } from '../command';
-import { Message } from 'discord.js';
+import { Message, Client } from 'discord.js';
 import * as YouTube from '../../utils/music';
 
-const Stop: Command = {
-  format: /^(?<command>(stop|parar))$/,
-  execute: async (message: Message, params: { [key: string]: string }) => {
+export default class StopCommand implements Command {
+
+  format = /^(?<command>(stop|parar))$/
+
+  async onCommand(message: Message, bot: Client, params: {[key: string]: string}) {
     try {
       if (!message.guild || !message.member) {
         return;
@@ -37,7 +39,5 @@ const Stop: Command = {
     } catch (error) {
       console.error('Stop Command', error);
     }
-  },
-};
-
-export default Stop;
+  }
+}

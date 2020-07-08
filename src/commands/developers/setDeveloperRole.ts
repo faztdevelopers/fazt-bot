@@ -1,10 +1,11 @@
 import Command, { sendMessage, deleteMessage } from '../command';
-import { Message } from 'discord.js';
+import { Message, Client } from 'discord.js';
 import * as Settings from '../../utils/settings';
 
-const SetDeveloperRole: Command = {
-  format: /^((?<command>(setdevrole|setdeveloperrole))\s<@&(?<role>\d+)>)$/,
-  execute: async (message: Message, params: { [key: string]: string }) => {
+export default class SetDeveloperRole implements Command {
+  format = /^((?<command>(setdevrole|setdeveloperrole))\s<@&(?<role>\d+)>)$/
+
+  async onCommand(message: Message, bot: Client, params: {[key: string]: string}){
     try {
       if (!message.guild || !message.member || !message.member.permissions.has('ADMINISTRATOR')) {
         return;
@@ -28,7 +29,5 @@ const SetDeveloperRole: Command = {
     } catch (error) {
       console.error('Set Developer Role Command', error);
     }
-  },
-};
-
-export default SetDeveloperRole;
+  }
+}
