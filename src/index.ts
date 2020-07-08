@@ -1,6 +1,7 @@
 import { config } from 'dotenv';
 import { Client } from 'discord.js';
 import Commands from './commands';
+import { connect } from './database';
 
 // Load .env file
 config();
@@ -28,9 +29,15 @@ bot.on('message', async (message) => {
   }
 });
 
-bot.on('ready', () => {
+bot.on('ready', async () => {
   console.log(`Bot logged as ${bot.user?.username}`);
-  bot.user?.setActivity('!help');
+  bot.user?.setActivity(`${prefix}help`);
 });
 
-bot.login(process.env.TOKEN || '');
+(async () => {
+  // Connect to the database
+  await connect();
+
+  // Bot login
+  await bot.login(process.env.TOKEN || '');
+})();

@@ -19,11 +19,17 @@
   },
   "homepage": "https://github.com/faztdevelopers/fazt-bot#readme",
   "dependencies": {
+    "@discordjs/opus": "^0.3.2",
     "discord.js": "^12.2.0",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "mongoose": "^5.9.22",
+    "simple-youtube-api": "^5.2.1",
+    "ytdl-core": "^3.1.2"
   },
   "devDependencies": {
+    "@types/mongoose": "^5.7.30",
     "@types/node": "^14.0.19",
+    "@types/ws": "^7.2.6",
     "ts-node-dev": "^1.0.0-pre.50",
     "typescript": "^3.9.6"
   }
