@@ -4,6 +4,7 @@ import * as fs from 'fs';
 
 const Commands: Command[] = [];
 const paths: string[] = [
+  'developers',
   'general',
   'moderation',
   'music',
