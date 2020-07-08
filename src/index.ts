@@ -3,6 +3,8 @@ import { Client, TextChannel, MessageEmbed } from 'discord.js';
 import Commands from './commands';
 import { connect } from './database';
 import { getByName as settingName } from './utils/settings';
+import onMention from './events/onMention';
+import onOtherLangs from './events/onOtherLangs';
 
 // Load .env file
 config();
@@ -18,6 +20,17 @@ bot.on('message', async (message) => {
   }
 
   if (!message.content.startsWith(prefix)) {
+    if (bot.user && message.content.match(new RegExp(`<@!?${bot.user.id}>`, 'gi'))) {
+      onMention(message);
+      return;
+    }
+
+    const otherLangsID: string = (await settingName('others_langs_channel'))?.value || '';
+    if (otherLangsID && message.channel.id === otherLangsID) {
+      onOtherLangs(message);
+      return;
+    }
+
     return;
   }
 
