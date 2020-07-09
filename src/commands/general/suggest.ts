@@ -1,10 +1,11 @@
 import Command, { sendMessage, deleteMessage } from '../command';
-import { Message, MessageEmbed, GuildChannel, TextChannel, Client } from 'discord.js';
+import { Message, GuildChannel, TextChannel, Client } from 'discord.js';
 import { getByName } from '../../utils/settings';
-import SuggestionEmbed from 'embeds/SuggestionEmbed';
+import SuggestionEmbed from '../../embeds/SuggestionEmbed';
 
-const Suggest: Command = {
-  format: /^(?<command>(sugerencia|suggestion)+(\s(?<message>[\s\S]+))?)/,
+export default class Suggest implements Command {
+  format = /^(?<command>(sugerencia|suggestion)+(\s(?<message>[\s\S]+))?)/;
+
   async onCommand(message: Message, bot: Client, params: { [key: string]: string }): Promise<void> {
     try {
       if (!message.guild) {
@@ -32,12 +33,10 @@ const Suggest: Command = {
 
       deleteMessage(await sendMessage(message, `Tu sugerencia se ha enviado a ${(suggestionChannel as TextChannel)}.`, params.command));
 
-      await msg.react(bot.emojis.cache.find((e) => e.name === 'check_2'));
-      await msg.react(bot.emojis.cache.find((e) => e.name === 'x2'));
+      await msg.react(bot.emojis.cache.find((e) => e.name === 'check_2') || '');
+      await msg.react(bot.emojis.cache.find((e) => e.name === 'x2') || '');
     } catch (error) {
       console.error('Suggest error', error);
     }
-  },
-};
-
-export default Suggest;
+  }
+}

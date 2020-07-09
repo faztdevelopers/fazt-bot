@@ -1,10 +1,11 @@
 import Command, { deleteMessage, sendMessage } from '../command';
-import { Message } from 'discord.js';
+import { Message, Client } from 'discord.js';
 import * as Settings from '../../utils/settings';
 
-const SetOffTopicChannel: Command = {
-  format: /^((?<command>(setofftopicchannel))\s<#(?<channel>\d+)>)$/,
-  execute: async (message: Message, params: { [key: string]: string }) => {
+export default class SetOffTopicChannel implements Command {
+  format = /^((?<command>(setofftopicchannel))\s<#(?<channel>\d+)>)$/
+
+  async onCommand(message: Message, bot: Client, params: { [key: string]: string }) {
     try {
       if (!message.guild || !message.member) {
         return;
@@ -33,7 +34,5 @@ const SetOffTopicChannel: Command = {
     } catch (error) {
       console.error('Set off-topic Channel', error);
     }
-  },
-};
-
-export default SetOffTopicChannel;
+  }
+}

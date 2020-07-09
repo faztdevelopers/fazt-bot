@@ -1,10 +1,11 @@
 import Command, { deleteMessage, sendMessage } from '../command';
-import { Message } from 'discord.js';
+import { Message, Client } from 'discord.js';
 import * as Settings from '../../utils/settings';
 
-const SetOtherLangsChannel: Command = {
-  format: /^((?<command>(setotherlangschannel))\s<#(?<channel>\d+)>)$/,
-  execute: async (message: Message, params: { [key: string]: string }) => {
+export default class SetOtherLangsChannel implements Command {
+  format = /^((?<command>(setotherlangschannel))\s<#(?<channel>\d+)>)$/
+
+  async onCommand(message: Message, bot: Client, params: { [key: string]: string }) {
     try {
       if (!message.guild || !message.member) {
         return;
@@ -33,7 +34,5 @@ const SetOtherLangsChannel: Command = {
     } catch (error) {
       console.error('Set Others Langs Channel', error);
     }
-  },
-};
-
-export default SetOtherLangsChannel;
+  }
+}

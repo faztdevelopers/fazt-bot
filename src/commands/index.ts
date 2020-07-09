@@ -19,9 +19,8 @@ if (paths.length) {
           continue;
         }
 
-        const Command = require(`./${path}/${fileName}`);
-        const command = new Command();
-        Commands.push(command);
+        const Command = require(`./${path}/${fileName}`).default;
+        Commands.push(new Command());
       }
     }
   }
