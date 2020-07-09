@@ -16,6 +16,11 @@ export default class extends MessageEmbed {
         value: 'Coloca una sugerencia en el canal de sugerencias.',
         inline: false,
       },
+      {
+        name: `${prefix}ascii/figlet`,
+        value: 'Responde con el mismo mensaje en ascii',
+        inline: false,
+      }
     ];
   }
 }
