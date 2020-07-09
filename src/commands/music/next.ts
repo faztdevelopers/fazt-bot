@@ -3,7 +3,6 @@ import { Message, Client } from 'discord.js';
 import * as YouTube from '../../utils/music';
 
 export default class NextCommand implements Command {
-  format = /^((?<command>(next|siguiente|skip))+(\s(?<forced>(forced)))?)$/;
   names: Array<string> = ['next', 'siguiente', 'skip'];
   group: CommandGroup = 'music';
   description = 'Cambia a la siguiente canción (Si hay más de 2 oyentes se hará votación).';
