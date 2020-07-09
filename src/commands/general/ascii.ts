@@ -1,7 +1,5 @@
 import Command, { sendMessage, deleteMessage } from '../command';
-import { Message, GuildChannel, TextChannel, Client } from 'discord.js';
-import { getByName } from '../../utils/settings';
-import SuggestionEmbed from '../../embeds/SuggestionEmbed';
+import { Message, Client } from 'discord.js';
 import figlet from 'figlet';
 
 export default class Ascii implements Command {
