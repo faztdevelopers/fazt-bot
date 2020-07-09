@@ -14,6 +14,9 @@
     "type": "git",
     "url": "git+https://github.com/faztdevelopers/fazt-bot.git"
   },
+  "engines": {
+    "node": "12.x"
+  },
   "author": "Fazt Community",
   "license": "ISC",
   "bugs": {
