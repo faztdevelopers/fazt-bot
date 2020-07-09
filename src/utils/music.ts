@@ -4,7 +4,7 @@ import { getByName as settingName } from '../utils/settings';
 import YTDL from 'ytdl-core';
 import { bot } from '..';
 import { sendMessage } from '../commands/command';
-const YouTube = require('simple-youtube-api');
+import YouTube from 'simple-youtube-api';
 
 config();
 
@@ -15,6 +15,7 @@ export interface IQueue {
   playing: boolean;
   playingDispatcher: StreamDispatcher | null;
   stopped: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   songs: Array<any>;
   skip?: number;
   hasVote: boolean;
@@ -94,6 +95,7 @@ export const play = async (guildID: string): Promise<boolean> => {
     return true;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const nextSong: any = queue.songs[0];
   if (!nextSong) {
     return false;
@@ -226,7 +228,7 @@ export const voteSystem = async (message: Message, command: Array<string>, force
     return false;
   }
 
-  let isDJ: boolean = false;
+  let isDJ = false;
 
   const djRole: string | null = (await settingName('dj_role'))?.value || null;
   if (djRole && message.member.roles.cache.has(djRole)) {
@@ -276,12 +278,12 @@ export const voteSystem = async (message: Message, command: Array<string>, force
   const disapproveEmoji: GuildEmoji | null = bot.emojis.cache.find((e) => e.name === 'x2') || null;
 
   const extraMessage = `Vota con (${approveEmoji || ''}) para aceptarlo o con (${disapproveEmoji || ''}) para rechazarlo.`;
-  let messageToSend: string = '';
+  let messageToSend = '';
 
   if (command[0].toLowerCase() === 'next') {
-    messageToSend = 'ha solicitado el cambio de canción.'
+    messageToSend = 'ha solicitado el cambio de canción.';
   } else if (command[0].toLowerCase() === 'stop') {
-    messageToSend = 'ha solicitado parar de reproducir música.'
+    messageToSend = 'ha solicitado parar de reproducir música.';
   } else if (command[0].toLowerCase() === 'remove') {
     messageToSend = 'ha solicitado eliminar una canción de la lista de reproducción.';
   } else if (command[0].toLowerCase() === 'leave') {
@@ -396,9 +398,9 @@ if (yvar) {
 
 let ytI = 0;
 
-let ytClass: any = null;
+let ytClass: YouTube | null = null;
 
-export const yt = (force = false, change = false) => {
+export const yt = (force = false, change = false): YouTube => {
   if (ytClass == null || force) {
     if (change) {
       if (ytI >= ytVars.length) {

@@ -1,6 +1,6 @@
 import { Client, ActivityOptions } from 'discord.js';
 
-const onReady = (bot: Client, prefix: string) => {
+const onReady = (bot: Client, prefix: string): void => {
   if (!bot.user) {
     return;
   }
@@ -26,7 +26,7 @@ const onReady = (bot: Client, prefix: string) => {
     },
   ];
 
-  let i: number = 0;
+  let i = 0;
   setInterval(async () => {
     if (!bot.user) {
       return;

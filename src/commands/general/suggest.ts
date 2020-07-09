@@ -5,9 +5,9 @@ import SuggestionEmbed from '../../embeds/SuggestionEmbed';
 
 export default class Suggest implements Command {
   names: Array<string> = ['sugerencia', 'suggestion'];
-  arguments: string = '(mensaje)';
+  arguments = '(mensaje)';
   group: CommandGroup = 'general';
-  description: string = 'Realiza una nueva sugerencia para el servidor.';
+  description = 'Realiza una nueva sugerencia para el servidor.';
 
   async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
     try {

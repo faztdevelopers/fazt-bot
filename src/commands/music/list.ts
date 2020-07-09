@@ -5,11 +5,11 @@ import ListSongEmbed, { InvalidPageNumberError } from '../../embeds/ListSongsEmb
 
 export default class ListCommand implements Command {
   names: Array<string> = ['list', 'queue', 'lista'];
-  arguments: string = '(página)';
+  arguments = '(página)';
   group: CommandGroup = 'music';
-  description: string = 'Mira la lista de reproducción actual.';
+  description = 'Mira la lista de reproducción actual.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>) {
+  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
     try {
       if (!message.guild) {
         return;

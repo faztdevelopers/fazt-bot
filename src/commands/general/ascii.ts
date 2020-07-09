@@ -4,9 +4,9 @@ import figlet from 'figlet';
 
 export default class Ascii implements Command {
   names: Array<string> = ['ascii', 'figlet'];
-  arguments: string = '(mensaje)';
+  arguments = '(mensaje)';
   group: CommandGroup = 'general';
-  description: string = 'Coloca un mensaje en código ASCII.';
+  description = 'Coloca un mensaje en código ASCII.';
 
   async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
     try {

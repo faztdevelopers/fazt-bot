@@ -16,11 +16,11 @@ export interface PackageInfo {
 
 export default class NPM implements Command {
   names: Array<string> = ['npm'];
-  arguments: string = '(package)';
+  arguments = '(package)';
   group: CommandGroup = 'general';
-  description: string = 'Obtén la información de un package de NPM.';
+  description = 'Obtén la información de un package de NPM.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>) {
+  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
     try {
       if (!params[1]) {
         await sendMessage(message, 'debes ingresar el nombre de un package.', params[0]);
@@ -57,5 +57,5 @@ export default class NPM implements Command {
     } catch (error) {
       await sendMessage(message, `el package **${params[1]}** no existe.`, params[0]);
     }
-  };
+  }
 }

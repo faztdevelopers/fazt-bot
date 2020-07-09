@@ -2,7 +2,7 @@ import { Message, MessageEmbed } from 'discord.js';
 import axios from 'axios';
 
 const onOtherLangs = async (message: Message): Promise<void> => {
-  const texts: any[] = (await axios.get('https://translate.googleapis.com/translate_a/single', {
+  const texts: string[] | undefined = (await axios.get('https://translate.googleapis.com/translate_a/single', {
     params: {
       client: 'gtx',
       sl: 'auto',
@@ -13,7 +13,7 @@ const onOtherLangs = async (message: Message): Promise<void> => {
   })).data[0];
 
   let msg = '';
-  if (texts.length) {
+  if (texts?.length) {
     const str: string[] = [];
     for (const text of texts) {
       str.push(text[0]);

@@ -5,9 +5,9 @@ import * as YouTube from '../../utils/music';
 export default class StopCommand implements Command {
   names: Array<string> = ['stop', 'parar'];
   group: CommandGroup = 'music';
-  description: string = 'Para de reproducir música. (Si hay más de 2 oyentes se hará votación)';
+  description = 'Para de reproducir música. (Si hay más de 2 oyentes se hará votación)';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>) {
+  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;

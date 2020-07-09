@@ -4,11 +4,11 @@ import * as Settings from '../../utils/settings';
 
 export default class SetDeveloperRole implements Command {
   names: Array<string> = ['setdevrole', 'setdeveloperrole'];
-  arguments: string = '(rol)';
+  arguments = '(rol)';
   group: CommandGroup = 'developer';
-  description: string = 'Agrega un rol de desarrollador del bot.';
+  description = 'Agrega un rol de desarrollador del bot.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>) {
+  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
     try {
       if (!message.guild || !message.member || !message.member.permissions.has('ADMINISTRATOR')) {
         return;

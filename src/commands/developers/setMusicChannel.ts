@@ -3,13 +3,12 @@ import { Message, Client } from 'discord.js';
 import * as Settings from '../../utils/settings';
 
 export default class SetMusicChannel implements Command {
-  format: RegExp = /^((?<command>(setmusicchannel))\s<#(?<channel>\d+)>)$/;
   names: Array<string> = ['setmusicchannel'];
-  arguments: string = '(canal)';
+  arguments = '(canal)';
   group: CommandGroup = 'developer';
-  description: string = 'Agrega un canal de música.';
+  description = 'Agrega un canal de música.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>) {
+  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;
