@@ -258,9 +258,9 @@ export const voteSystem = async (message: Message, command: string[], forced: bo
         queue.playingDispatcher.end();
         queue.playingDispatcher = null;
       }
-    }
 
-    queue.playing = false;
+      queue.playing = false;
+    }
 
     if (command[0].toLowerCase() === 'leave') {
       queue.voiceChannel.leave();
@@ -362,9 +362,10 @@ export const voteSystem = async (message: Message, command: string[], forced: bo
           queue.playingDispatcher.end();
           queue.playingDispatcher = null;
         }
+
+        queue.playing = false;
       }
 
-      queue.playing = false;
       if (command[0].toLowerCase() === 'leave') {
         queue.voiceChannel.leave();
 
