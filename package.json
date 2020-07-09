@@ -6,12 +6,12 @@
   "scripts": {
     "build": "tsc",
     "dev": "ts-node-dev --respawn --transpileOnly ./src/index.ts",
-    "start": "npm run build && node ./dist/index.js"
+    "start": "npm run build && node ./dist/index.js",
+    "lint": "eslint src/**/*"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/faztdevelopers/fazt-bot.git",
-    "lint": "eslint src/**/*"
+    "url": "git+https://github.com/faztdevelopers/fazt-bot.git"
   },
   "author": "Fazt Community",
   "license": "ISC",
