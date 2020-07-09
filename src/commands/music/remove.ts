@@ -1,11 +1,13 @@
 import Command, { sendMessage, deleteMessage } from '../command';
-import { Message } from 'discord.js';
+import { Message, Client } from 'discord.js';
 import * as YouTube from '../../utils/music';
 import { prefix } from '../..';
 
-const Remove: Command = {
-  format: /(^(?<command>(remove|delete|eliminar))\s(?<index>\d+))$/,
-  execute: async (message: Message, params: { [key: string]: string }) => {
+export default class RemoveCommand implements Command {
+
+  format = /(^(?<command>(remove|delete|eliminar))\s(?<index>\d+))$/
+
+  async onCommand(message: Message, bot: Client, params: {[key: string]: string}){
     try {
       if (!message.guild || !message.member) {
         return;
@@ -59,7 +61,6 @@ const Remove: Command = {
     } catch (error) {
       console.error('Remove Command', error);
     }
-  },
-};
+  }
 
-export default Remove;
+}

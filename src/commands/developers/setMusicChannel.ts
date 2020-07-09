@@ -1,10 +1,11 @@
 import Command, { deleteMessage, sendMessage } from '../command';
-import { Message } from 'discord.js';
+import { Message, Client } from 'discord.js';
 import * as Settings from '../../utils/settings';
 
-const SetMusicChannel: Command = {
-  format: /^((?<command>(setmusicchannel))\s<#(?<channel>\d+)>)$/,
-  execute: async (message: Message, params: { [key: string]: string }) => {
+export default class SetMusicChannel implements Command {
+  format = /^((?<command>(setmusicchannel))\s<#(?<channel>\d+)>)$/
+
+  async onCommand(message: Message, bot: Client, params:{[key: string]: string}) {
     try {
       if (!message.guild || !message.member) {
         return;
@@ -33,7 +34,5 @@ const SetMusicChannel: Command = {
     } catch (error) {
       console.error('Set Music Channel', error);
     }
-  },
-};
-
-export default SetMusicChannel;
+  }
+}

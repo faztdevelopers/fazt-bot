@@ -1,10 +1,12 @@
 import Command, { sendMessage, deleteMessage } from '../command';
-import { Message } from 'discord.js';
+import { Message, Client } from 'discord.js';
 import * as YouTube from '../../utils/music';
 
-const Play: Command = {
-  format: /^((?<command>(play|reproducir|p))+(\s(?<search>[\s\S]+))?)$/,
-  execute: async function (message: Message, params: { [key: string]: string }) {
+export default class PlayCommand implements Command {
+
+  format = /^((?<command>(play|reproducir|p))+(\s(?<search>[\s\S]+))?)$/
+
+  async onCommand(message: Message, bot: Client, params: {[key: string]: string}){
     try {
       if (!message.guild || !message.member) {
         return;
@@ -84,7 +86,7 @@ const Play: Command = {
         if (yt == null) {
           await sendMessage(message, 'el API excedió el límite de peticiones.', params.command);
         } else {
-          await this.execute(message, params);
+          await this.onCommand(message, bot, params);
         }
 
         return;
@@ -92,7 +94,5 @@ const Play: Command = {
 
       console.error('Play Song Command', error);
     }
-  },
-};
-
-export default Play;
+  } 
+}
