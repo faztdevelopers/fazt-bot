@@ -26,7 +26,7 @@ const onMessage = async (message: Message, bot: Client, prefix: string, commands
 
   const params: string[] = message.content.slice(prefix.length).split(' ');
   if (commandsCache.length) {
-    for await (let command of commandsCache) {
+    for await (const command of commandsCache) {
       if (command.names.includes(params[0].toLowerCase())) {
         await command.onCommand(message, bot, params);
       }

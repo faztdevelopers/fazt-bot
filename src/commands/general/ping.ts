@@ -5,9 +5,9 @@ import moment from 'moment';
 export default class Ping implements Command {
   names: Array<string> = ['ping'];
   group: CommandGroup = 'general';
-  description: string = 'Ping pong...';
+  description = 'Ping pong...';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>) {
+  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
     await message.channel.send(`Pong! 🚀 (${moment(message.createdTimestamp).diff(moment(Date.now()), 'millisecond')}ms)`);
-  };
+  }
 }

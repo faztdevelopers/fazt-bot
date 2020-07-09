@@ -5,11 +5,11 @@ import { prefix } from '../..';
 
 export default class SearchCommand implements Command {
   names: Array<string> = ['search', 'buscar', 's'];
-  arguments: string = '(Nombre del vídeo/canción)';
+  arguments = '(Nombre del vídeo/canción)';
   group: CommandGroup = 'music';
-  description: string = 'Obtén los 10 primeros resultados de una búsqueda.';
+  description = 'Obtén los 10 primeros resultados de una búsqueda.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>) {
+  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;
@@ -62,6 +62,7 @@ export default class SearchCommand implements Command {
           return;
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const songData: any = results[i - 1];
 
         let queue = YouTube.queues[msg.guild.id];

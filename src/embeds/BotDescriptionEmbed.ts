@@ -22,7 +22,7 @@ export default class extends MessageEmbed {
     this.color = 0x0FF0022;
 
     if (commandsCache.length) {
-      for (let command of commandsCache) {
+      for (const command of commandsCache) {
         if (!group) {
           if (command.group === 'developer' || command.group === 'moderation') {
             continue;

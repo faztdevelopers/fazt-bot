@@ -4,13 +4,13 @@ import * as YouTube from '../../utils/music';
 import { prefix } from '../..';
 
 export default class RemoveCommand implements Command {
-  format: RegExp = /^(((?<command>(remove|delete|eliminar))\s(?<index>\d+))+(\s(?<forced>(forced)))?)$/;
+  format = /^(((?<command>(remove|delete|eliminar))\s(?<index>\d+))+(\s(?<forced>(forced)))?)$/;
   names: Array<string> = ['remove', 'delete', 'eliminar'];
-  arguments: string = '(Número)';
+  arguments = '(Número)';
   group: CommandGroup = 'music';
-  description: string = 'Elimina una canción de la lista de reproducción. (Si hay más de 2 oyentes se hará votación)';
+  description = 'Elimina una canción de la lista de reproducción. (Si hay más de 2 oyentes se hará votación)';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>) {
+  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;
@@ -50,6 +50,7 @@ export default class RemoveCommand implements Command {
         return;
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const songData: any = queue.songs[i - 1];
       if (!songData) {
         await sendMessage(message, `la canción **#${i}** no existe en la lista de reproducción`, params[0]);

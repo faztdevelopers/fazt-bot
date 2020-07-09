@@ -4,11 +4,11 @@ import * as YouTube from '../../utils/music';
 
 export default class PlayCommand implements Command {
   names: Array<string> = ['play', 'reproducir', 'p'];
-  arguments: string = '(Nombre del vídeo/canción)';
+  arguments = '(Nombre del vídeo/canción)';
   group: CommandGroup = 'music';
-  description: string = 'Reproduce una canción por su nombre.';
+  description = 'Reproduce una canción por su nombre.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>) {
+  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;

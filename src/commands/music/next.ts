@@ -3,12 +3,12 @@ import { Message, Client } from 'discord.js';
 import * as YouTube from '../../utils/music';
 
 export default class NextCommand implements Command {
-  format: RegExp = /^((?<command>(next|siguiente|skip))+(\s(?<forced>(forced)))?)$/;
+  format = /^((?<command>(next|siguiente|skip))+(\s(?<forced>(forced)))?)$/;
   names: Array<string> = ['next', 'siguiente', 'skip'];
   group: CommandGroup = 'music';
   description = 'Cambia a la siguiente canción (Si hay más de 2 oyentes se hará votación).';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>) {
+  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;

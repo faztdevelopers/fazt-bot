@@ -5,9 +5,9 @@ import * as YouTube from '../../utils/music';
 export default class LeaveCommand implements Command {
   names: Array<string> = ['leave', 'salir'];
   group: CommandGroup = 'music';
-  description: string = 'Sacar al bot del canal de voz. (Si hay más de 2 oyentes se hará votación)';
+  description = 'Sacar al bot del canal de voz. (Si hay más de 2 oyentes se hará votación)';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>) {
+  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;

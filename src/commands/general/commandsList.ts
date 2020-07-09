@@ -6,9 +6,9 @@ import { isMusicChannel } from '../../utils/music';
 
 export default class CommandsList implements Command {
   names: Array<string> = ['info', 'help', 'commands', 'comandos'];
-  arguments: string = '(música/general)';
+  arguments = '(música/general)';
   group: CommandGroup = 'general';
-  description: string = 'Mira la lista de comandos.';
+  description = 'Mira la lista de comandos.';
 
   async onCommand(message: Message, client: Client, params: Array<string>): Promise<void> {
     try {

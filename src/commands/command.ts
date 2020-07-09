@@ -14,10 +14,12 @@ export const deleteMessage = async (message: Message | null, timeout = 5000): Pr
 
 export type CommandGroup = 'developer' | 'general' | 'moderation' | 'music';
 
-export default interface Command {
+interface Command {
   names: Array<string>;
   arguments?: string;
   group: CommandGroup;
   description: string;
   onCommand: (msg: Message, client: Client, params: Array<string>) => Promise<void>;
 }
+
+export default Command;

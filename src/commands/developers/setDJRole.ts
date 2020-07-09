@@ -4,11 +4,11 @@ import * as Settings from '../../utils/settings';
 
 export default class SetDJRole implements Command {
   names: Array<string> = ['setdjrole'];
-  arguments: string = '(rol)';
+  arguments = '(rol)';
   group: CommandGroup = 'developer';
-  description: string = 'Agrega un rol de DJ del bot.';
+  description = 'Agrega un rol de DJ del bot.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>) {
+  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;

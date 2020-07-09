@@ -2,7 +2,7 @@ import { GuildMember, PartialGuildMember, Client, TextChannel } from 'discord.js
 import { getByName as settingName } from '../utils/settings';
 import WelcomeEmbed from '../embeds/WelcomeEmbed';
 
-const onNewMember = async (member: GuildMember | PartialGuildMember, bot: Client) => {
+const onNewMember = async (member: GuildMember | PartialGuildMember, bot: Client): Promise<void> => {
   if (!member.user) {
     return;
   }

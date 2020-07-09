@@ -4,11 +4,11 @@ import * as Settings from '../../utils/settings';
 
 export default class SetOtherLangsChannel implements Command {
   names: Array<string> = ['setotherlangschannel'];
-  arguments: string = '(canal)';
+  arguments = '(canal)';
   group: CommandGroup = 'developer';
-  description: string = 'Agrega un canal para otros idiomas.';
+  description = 'Agrega un canal para otros idiomas.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>) {
+  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;
