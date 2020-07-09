@@ -1,13 +1,16 @@
-import Command, { sendMessage, deleteMessage } from '../command';
+import Command, { sendMessage, deleteMessage, CommandGroup } from '../command';
 import { Message, Client } from 'discord.js';
 import * as YouTube from '../../utils/music';
 import { prefix } from '../..';
 
 export default class RemoveCommand implements Command {
+  format: RegExp = /^(((?<command>(remove|delete|eliminar))\s(?<index>\d+))+(\s(?<forced>(forced)))?)$/;
+  names: string[] = ['remove', 'delete', 'eliminar'];
+  arguments: string = '(Número)';
+  group: CommandGroup = 'music';
+  description: string = 'Elimina una canción de la lista de reproducción. (Si hay más de 2 oyentes se hará votación)';
 
-  format = /(^(?<command>(remove|delete|eliminar))\s(?<index>\d+))$/
-
-  async onCommand(message: Message, bot: Client, params: {[key: string]: string}){
+  async onCommand(message: Message, bot: Client, params: { [key: string]: string }) {
     try {
       if (!message.guild || !message.member) {
         return;
@@ -53,7 +56,7 @@ export default class RemoveCommand implements Command {
         return;
       }
 
-      await YouTube.voteSystem(message, ['remove', params.command], {
+      await YouTube.voteSystem(message, ['remove', params.command], params.forced === 'forced', {
         song_index: (i - 1).toString(),
         song_name: YouTube.filterTitle(songData.title),
         song_author: songData.channel.title,

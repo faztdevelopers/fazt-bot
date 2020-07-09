@@ -211,8 +211,8 @@ export const play = async (guildID: string): Promise<boolean> => {
   return true;
 };
 
-export const voteSystem = async (message: Message, command: string[], extra: { [key: string]: string } = {}): Promise<boolean> => {
-  if (!message.guild) {
+export const voteSystem = async (message: Message, command: string[], forced: boolean, extra: { [key: string]: string } = {}): Promise<boolean> => {
+  if (!message.guild || !message.member) {
     return false;
   }
 
@@ -226,8 +226,15 @@ export const voteSystem = async (message: Message, command: string[], extra: { [
     return false;
   }
 
+  let isDJ: boolean = false;
+
+  const djRole: string | null = (await settingName('dj_role'))?.value || null;
+  if (djRole && message.member.roles.cache.has(djRole)) {
+    isDJ = true;
+  }
+
   const memberCount: number = queue.voiceChannel.members.size;
-  if (memberCount <= 3) {
+  if (memberCount <= 3 || (isDJ && forced)) {
     if (command[0].toLowerCase() !== 'next') {
       if (command[0].toLowerCase() === 'stop') {
         queue.stopped = true;
@@ -240,6 +247,9 @@ export const voteSystem = async (message: Message, command: string[], extra: { [
         queue.songs.splice(i, 1);
 
         await sendMessage(message, `la canción **${extra.song_name}** de **${extra.song_author}** ha sido eliminada de la lista de reproducción.`, command[1]);
+      } else if (command[0].toLowerCase() === 'leave') {
+        queue.stopped = true;
+        await sendMessage(message, 'me he salido del canal de voz.', command[1]);
       }
     }
 
@@ -251,6 +261,12 @@ export const voteSystem = async (message: Message, command: string[], extra: { [
     }
 
     queue.playing = false;
+
+    if (command[0].toLowerCase() === 'leave') {
+      queue.voiceChannel.leave();
+      delete queues[message.guild.id];
+    }
+
     return true;
   }
 
@@ -260,16 +276,19 @@ export const voteSystem = async (message: Message, command: string[], extra: { [
   const disapproveEmoji: GuildEmoji | null = bot.emojis.cache.find((e) => e.name === 'x2') || null;
 
   const extraMessage = `Vota con (${approveEmoji || ''}) para aceptarlo o con (${disapproveEmoji || ''}) para rechazarlo.`;
-  let msg: Message | null = null;
+  let messageToSend: string = '';
 
   if (command[0].toLowerCase() === 'next') {
-    msg = await message.channel.send(`**[${command[1].toUpperCase()}]** ${message.author}, ha solicitado el cambio de canción. ${extraMessage}`);
+    messageToSend = 'ha solicitado el cambio de canción.'
   } else if (command[0].toLowerCase() === 'stop') {
-    msg = await message.channel.send(`**[${command[1].toUpperCase()}]** ${message.author}, ha solicitado parar de reproducir música. ${extraMessage}`);
+    messageToSend = 'ha solicitado parar de reproducir música.'
   } else if (command[0].toLowerCase() === 'remove') {
-    msg = await message.channel.send(`**[${command[1].toUpperCase()}]** ${message.author}, ha solicitado eliminar una canción de la lista. ${extraMessage}`);
+    messageToSend = 'ha solicitado eliminar una canción de la lista de reproducción.';
+  } else if (command[0].toLowerCase() === 'leave') {
+    messageToSend = 'ha solicitado que el bot deje el canal de voz.';
   }
 
+  const msg = await sendMessage(message, `${messageToSend} ${extraMessage}`, command[1]);
   if (!msg) {
     return false;
   }
@@ -332,6 +351,9 @@ export const voteSystem = async (message: Message, command: string[], extra: { [
           queue.songs.splice(i, 1);
 
           await sendMessage(message, `la canción **${extra.song_name}** de **${extra.song_author}** ha sido eliminada de la lista de reproducción.`, command[1]);
+        } else if (command[0].toLowerCase() === 'leave') {
+          queue.stopped = true;
+          await sendMessage(message, 'me he salido del canal de voz.', command[1]);
         }
       }
 
@@ -343,6 +365,13 @@ export const voteSystem = async (message: Message, command: string[], extra: { [
       }
 
       queue.playing = false;
+      if (command[0].toLowerCase() === 'leave') {
+        queue.voiceChannel.leave();
+
+        if (message.guild) {
+          delete queues[message.guild.id];
+        }
+      }
     }
   };
 

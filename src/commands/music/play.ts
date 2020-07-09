@@ -1,12 +1,15 @@
-import Command, { sendMessage, deleteMessage } from '../command';
+import Command, { sendMessage, deleteMessage, CommandGroup } from '../command';
 import { Message, Client } from 'discord.js';
 import * as YouTube from '../../utils/music';
 
 export default class PlayCommand implements Command {
+  format: RegExp = /^((?<command>(play|reproducir|p))+(\s(?<search>[\s\S]+))?)$/;
+  names: string[] = ['play', 'reproducir', 'p'];
+  arguments: string = '(Nombre del vídeo/canción)';
+  group: CommandGroup = 'music';
+  description: string = 'Reproduce una canción por su nombre.';
 
-  format = /^((?<command>(play|reproducir|p))+(\s(?<search>[\s\S]+))?)$/
-
-  async onCommand(message: Message, bot: Client, params: {[key: string]: string}){
+  async onCommand(message: Message, bot: Client, params: { [key: string]: string }) {
     try {
       if (!message.guild || !message.member) {
         return;
@@ -94,5 +97,5 @@ export default class PlayCommand implements Command {
 
       console.error('Play Song Command', error);
     }
-  } 
+  }
 }

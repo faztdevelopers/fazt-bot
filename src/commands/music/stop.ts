@@ -1,12 +1,14 @@
-import Command, { sendMessage, deleteMessage } from '../command';
+import Command, { sendMessage, deleteMessage, CommandGroup } from '../command';
 import { Message, Client } from 'discord.js';
 import * as YouTube from '../../utils/music';
 
 export default class StopCommand implements Command {
+  format: RegExp = /^((?<command>(stop|parar))+(\s(?<forced>(forced)))?)$/;
+  names: string[] = ['stop', 'parar'];
+  group: CommandGroup = 'music';
+  description: string = 'Para de reproducir música. (Si hay más de 2 oyentes se hará votación)';
 
-  format = /^(?<command>(stop|parar))$/
-
-  async onCommand(message: Message, bot: Client, params: {[key: string]: string}) {
+  async onCommand(message: Message, bot: Client, params: { [key: string]: string }) {
     try {
       if (!message.guild || !message.member) {
         return;
@@ -35,7 +37,7 @@ export default class StopCommand implements Command {
         return;
       }
 
-      await YouTube.voteSystem(message, ['stop', params.command]);
+      await YouTube.voteSystem(message, ['stop', params.command], params.forced === 'forced');
     } catch (error) {
       console.error('Stop Command', error);
     }

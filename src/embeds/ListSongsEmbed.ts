@@ -4,11 +4,11 @@ import * as YouTube from '../utils/music';
 export class InvalidPageNumberError extends Error { }
 
 export default class extends MessageEmbed {
-  private ITEMS_PER_PAGE: number = 10
+  private ITEMS_PER_PAGE: number = 10;
   private pages: number;
 
   constructor(bot: Client, queue: YouTube.IQueue, page: number) {
-    super()
+    super();
     this.title = `${bot.user?.username}: Lista de reproducción`;
     this.description = "";
     this.color = 0xF44336;
@@ -17,11 +17,11 @@ export default class extends MessageEmbed {
     let remaining_songs = queue.songs.length - (this.ITEMS_PER_PAGE * this.pages);
 
     if (remaining_songs > 0) {
-      this.pages++
+      this.pages++;
     }
 
     if (isNaN(page) || page <= 0 || page > this.pages) {
-      throw new InvalidPageNumberError("Number of page is invalid")
+      throw new InvalidPageNumberError('Number of page is invalid');
     }
 
     let i = 0;
@@ -30,5 +30,7 @@ export default class extends MessageEmbed {
       this.description += `${FIRT_ELEMENT_INDEX + i + 1}. **${YouTube.filterTitle(song.title)}** de **${song.channel.title}**\r\n`;
       i++;
     }
+
+    this.setFooter(`Página ${page} de ${this.pages}`);
   }
 }

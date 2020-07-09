@@ -1,7 +1,7 @@
 import { Message, Client } from 'discord.js';
 
 export const sendMessage = async (message: Message, content: string, command: string): Promise<Message | null> => {
-  return await message.channel.send(`**[${command.toUpperCase()}]** ${message.author}, ${content}`) || null;
+  return await message.channel.send(`**[${command.split(' ')[0].toUpperCase()}]** ${message.author}, ${content}`) || null;
 };
 
 export const deleteMessage = async (message: Message | null, timeout = 5000): Promise<void> => {
@@ -12,7 +12,13 @@ export const deleteMessage = async (message: Message | null, timeout = 5000): Pr
   await message.delete({ timeout });
 };
 
+export type CommandGroup = 'developer' | 'general' | 'moderation' | 'music';
+
 export default interface Command {
   format: RegExp;
-  onCommand: (msg: Message, client: Client, params: { [key: string]: string }) => Promise<void> 
+  names: string[];
+  arguments?: string;
+  group: CommandGroup;
+  description: string;
+  onCommand: (msg: Message, client: Client, params: { [key: string]: string }) => Promise<void>;
 }

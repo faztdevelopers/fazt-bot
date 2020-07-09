@@ -1,0 +1,13 @@
+import onMention from './onMention';
+import onMessage from './onMessage';
+import onNewMember from './onNewMember';
+import onOtherLangs from './onOtherLangs';
+import onReady from './onReady';
+
+export default {
+  onMention,
+  onMessage,
+  onNewMember,
+  onOtherLangs,
+  onReady,
+};
