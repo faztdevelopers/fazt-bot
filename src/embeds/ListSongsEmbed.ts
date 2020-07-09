@@ -1,3 +1,5 @@
+// Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
+
 import { MessageEmbed, Client } from 'discord.js';
 import * as YouTube from '../utils/music';
 

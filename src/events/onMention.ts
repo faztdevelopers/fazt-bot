@@ -1,3 +1,5 @@
+// Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
+
 import { Message } from 'discord.js';
 import axios from 'axios';
 

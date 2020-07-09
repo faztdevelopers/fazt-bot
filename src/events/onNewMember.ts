@@ -1,3 +1,5 @@
+// Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
+
 import { GuildMember, PartialGuildMember, Client, TextChannel } from 'discord.js';
 import { getByName as settingName } from '../utils/settings';
 import WelcomeEmbed from '../embeds/WelcomeEmbed';

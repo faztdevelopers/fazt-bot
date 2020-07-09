@@ -1,3 +1,5 @@
+// Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
+
 import { config } from 'dotenv';
 import { TextChannel, VoiceChannel, VoiceConnection, StreamDispatcher, MessageEmbed, DMChannel, NewsChannel, Message, MessageReaction, User, UserFlags, GuildChannel, GuildEmoji } from 'discord.js';
 import { getByName as settingName } from '../utils/settings';

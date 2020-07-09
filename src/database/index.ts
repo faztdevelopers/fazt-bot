@@ -1,3 +1,5 @@
+// Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
+
 import mongoose from 'mongoose';
 
 export const connect = async (): Promise<void> => {

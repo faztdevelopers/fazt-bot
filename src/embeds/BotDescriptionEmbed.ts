@@ -1,3 +1,5 @@
+// Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
+
 import { MessageEmbed } from 'discord.js';
 import { CommandGroup } from 'commands/command';
 import { commandsCache, prefix } from '..';

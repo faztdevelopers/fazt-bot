@@ -1,3 +1,5 @@
+// Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
+
 import { config } from 'dotenv';
 import { Client } from 'discord.js';
 import Command from './commands/command';

@@ -15,6 +15,8 @@
 * [FFmpeg](https://ffmpeg.org/)
 * [Youtube API key](https://developers.google.com/youtube/v3/getting-started)
 
+# [How to contribute](https://github.com/faztcommunity/docs/blob/master/contribute.md)
+
 # Contributors
 * **Fluc** [GitHub](https://github.com/Fluc-UwU)
 * **The Ghost** [GitHub](https://github.com/YesnielX)
@@ -23,3 +25,5 @@
 * **zd4y** [GitHub](https://github.com/zd4y)
 * **Craig** [GitHub](https://github.com/leave20)
 * **Daniel Solarte** [GitHub](https://github.com/danielsolartech)
+
+# [LICENSE](./LICENSE)

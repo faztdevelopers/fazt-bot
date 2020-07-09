@@ -1,3 +1,5 @@
+// Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
+
 import * as Settings from '../database/models/setting';
 
 export const getAll = async (): Promise<Settings.Setting[]> => await Settings.model.find({});
