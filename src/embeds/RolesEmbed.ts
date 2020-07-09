@@ -6,7 +6,7 @@ export default class extends MessageEmbed {
     super();
     this.color = 0xFF0022;
     this.title = `${botname}: Lista de roles`;
-    this.description = `Puedes escoger varios roles. Uso: **${prefix}role (opción)**`;
+    this.description = `Puedes escoger varios roles. Uso: **${prefix}role (opción)** o **${prefix}role (nombre)**`;
     this.fields = [
       {
         name: 'a) FullStack',
@@ -19,17 +19,17 @@ export default class extends MessageEmbed {
         inline: false,
       },
       {
-        name: 'c) Mobile Developer',
+        name: 'c) Mobile',
         value: 'Android, iOS u otros desarrolladores móbiles.',
         inline: false,
       },
       {
-        name: 'd) Game Developer',
+        name: 'd) Game',
         value: 'Programadores y desarrolladores de juegos.',
         inline: false,
       },
       {
-        name: 'e) Frontend Developer',
+        name: 'e) Frontend',
         value: 'Desarrolladores Frontend.',
         inline: false,
       },

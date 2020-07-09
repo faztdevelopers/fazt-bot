@@ -15,7 +15,7 @@ export interface IQueue {
   playing: boolean;
   playingDispatcher: StreamDispatcher | null;
   stopped: boolean;
-  songs: any[];
+  songs: Array<any>;
   skip?: number;
   hasVote: boolean;
 }
@@ -211,7 +211,7 @@ export const play = async (guildID: string): Promise<boolean> => {
   return true;
 };
 
-export const voteSystem = async (message: Message, command: string[], forced: boolean, extra: { [key: string]: string } = {}): Promise<boolean> => {
+export const voteSystem = async (message: Message, command: Array<string>, forced: boolean, extra: { [key: string]: string } = {}): Promise<boolean> => {
   if (!message.guild || !message.member) {
     return false;
   }
@@ -381,7 +381,7 @@ export const voteSystem = async (message: Message, command: string[], forced: bo
   return true;
 };
 
-let ytVars: string[] = [];
+let ytVars: Array<string> = [];
 
 const yvar: string | undefined = process.env.YOUTUBE;
 if (yvar) {

@@ -4,13 +4,12 @@ import * as YouTube from '../../utils/music';
 import { prefix } from '../..';
 
 export default class SearchCommand implements Command {
-  format: RegExp = /^((?<command>(search|buscar|s))+(\s(?<search>[\s\S]+))?)$/;
-  names: string[] = ['search', 'buscar', 's'];
+  names: Array<string> = ['search', 'buscar', 's'];
   arguments: string = '(Nombre del vídeo/canción)';
   group: CommandGroup = 'music';
   description: string = 'Obtén los 10 primeros resultados de una búsqueda.';
 
-  async onCommand(message: Message, bot: Client, params: { [key: string]: string }) {
+  async onCommand(message: Message, bot: Client, params: Array<string>) {
     try {
       if (!message.guild || !message.member) {
         return;
@@ -19,23 +18,23 @@ export default class SearchCommand implements Command {
       const musicChannel = await YouTube.isMusicChannel(message);
       if (!musicChannel[0]) {
         await message.delete();
-        await deleteMessage(await sendMessage(message, `solo puedes usar comandos de música en ${musicChannel[1]}`, params.command));
+        await deleteMessage(await sendMessage(message, `solo puedes usar comandos de música en ${musicChannel[1]}`, params[0]));
         return;
       }
 
       if (!message.member.voice.channel) {
-        await sendMessage(message, 'no estás en un canal de voz.', params.command);
+        await sendMessage(message, 'no estás en un canal de voz.', params[0]);
         return;
       }
 
-      if (!params.search || !params.search.length) {
-        await sendMessage(message, 'el parámetro de búsqueda está vacío.', params.command);
+      if (!params[1] || !params[1].length) {
+        await sendMessage(message, 'el parámetro de búsqueda está vacío.', params[0]);
         return;
       }
 
-      const results = await YouTube.yt().searchVideos(params.search, 10);
+      const results = await YouTube.yt().searchVideos(params[1], 10);
       if (!results.length) {
-        await sendMessage(message, `no hay resultados para ${params.search}`, params.command);
+        await sendMessage(message, `no hay resultados para ${params[1]}`, params[0]);
         return;
       }
 
@@ -83,7 +82,7 @@ export default class SearchCommand implements Command {
           YouTube.queues[msg.guild.id] = queue;
         } else {
           if (!queue.voiceChannel.members.has(msg.member.id)) {
-            await sendMessage(msg, 'no estás en el canal de voz.', params.command);
+            await sendMessage(msg, 'no estás en el canal de voz.', params[0]);
             return;
           }
 
@@ -93,7 +92,7 @@ export default class SearchCommand implements Command {
         if (!queue.playing && !queue.playingDispatcher) {
           await YouTube.play(msg.guild.id);
         } else {
-          await sendMessage(message, `la canción **${YouTube.filterTitle(songData.title)}** de **${songData.channel.title}** ha sido agregada a la lista de reproducción.`, params.command);
+          await sendMessage(message, `la canción **${YouTube.filterTitle(songData.title)}** de **${songData.channel.title}** ha sido agregada a la lista de reproducción.`, params[0]);
         }
 
         collector.stop();
@@ -109,7 +108,7 @@ export default class SearchCommand implements Command {
 
       await message.channel.send(
         new MessageEmbed()
-          .setTitle(`Resultados de ${params.search}`)
+          .setTitle(`Resultados de ${params[1]}`)
           .setColor('#f44336')
           .setDescription(`Usa **'${prefix}searchplay [número]'** para poner una canción de la búsqueda:\r\n${songs.join('\r\n')}`)
           .setTimestamp(Date.now())
@@ -118,7 +117,7 @@ export default class SearchCommand implements Command {
       if (error.errors && error.errors[0].reason === 'quotaExceeded') {
         const yt = YouTube.yt(true, true);
         if (yt == null) {
-          await sendMessage(message, 'el API excedió el límite de peticiones.', params.command);
+          await sendMessage(message, 'el API excedió el límite de peticiones.', params[0]);
         } else {
           await this.onCommand(message, bot, params);
         }

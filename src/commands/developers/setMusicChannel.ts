@@ -4,12 +4,12 @@ import * as Settings from '../../utils/settings';
 
 export default class SetMusicChannel implements Command {
   format: RegExp = /^((?<command>(setmusicchannel))\s<#(?<channel>\d+)>)$/;
-  names: string[] = ['setmusicchannel'];
+  names: Array<string> = ['setmusicchannel'];
   arguments: string = '(canal)';
   group: CommandGroup = 'developer';
   description: string = 'Agrega un canal de música.';
 
-  async onCommand(message: Message, bot: Client, params: { [key: string]: string }) {
+  async onCommand(message: Message, bot: Client, params: Array<string>) {
     try {
       if (!message.guild || !message.member) {
         return;
@@ -22,9 +22,15 @@ export default class SetMusicChannel implements Command {
 
       await message.delete();
 
-      const channel = message.guild.channels.cache.get(params.channel);
+      const channelID: string = (params[1] || '').replace('<#', '').replace('>', '');
+      if (!channelID || !channelID.length) {
+        await deleteMessage(await sendMessage(message, 'debes ingresar un canal.', params[0]));
+        return;
+      }
+
+      const channel = message.guild.channels.cache.get(channelID);
       if (!channel) {
-        await deleteMessage(await sendMessage(message, 'el canal no es válido.', params.command));
+        await deleteMessage(await sendMessage(message, 'el canal no es válido.', params[0]));
         return;
       }
 
@@ -34,7 +40,7 @@ export default class SetMusicChannel implements Command {
         await Settings.create('music_channel', channel.id);
       }
 
-      await deleteMessage(await sendMessage(message, `ahora ${channel} es el canal de música.`, params.command));
+      await deleteMessage(await sendMessage(message, `ahora ${channel} es el canal de música.`, params[0]));
     } catch (error) {
       console.error('Set Music Channel', error);
     }

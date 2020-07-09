@@ -3,13 +3,12 @@ import { Message, Client } from 'discord.js';
 import * as Settings from '../../utils/settings';
 
 export default class SetOffTopicChannel implements Command {
-  format: RegExp = /^((?<command>(setofftopicchannel))\s<#(?<channel>\d+)>)$/;
-  names: string[] = ['setofftopicchannel'];
+  names: Array<string> = ['setofftopicchannel'];
   arguments: string = '(canal)';
   group: CommandGroup = 'developer';
   description: string = 'Agrega un canal off-topic.';
 
-  async onCommand(message: Message, bot: Client, params: { [key: string]: string }) {
+  async onCommand(message: Message, bot: Client, params: Array<string>) {
     try {
       if (!message.guild || !message.member) {
         return;
@@ -22,9 +21,15 @@ export default class SetOffTopicChannel implements Command {
 
       await message.delete();
 
-      const channel = message.guild.channels.cache.get(params.channel);
+      const channelID: string = (params[1] || '').replace('<#', '').replace('>', '');
+      if (!channelID || !channelID.length) {
+        await deleteMessage(await sendMessage(message, 'debes ingresar un canal.', params[0]));
+        return;
+      }
+
+      const channel = message.guild.channels.cache.get(channelID);
       if (!channel) {
-        await deleteMessage(await sendMessage(message, 'el canal no es válido.', params.command));
+        await deleteMessage(await sendMessage(message, 'el canal no es válido.', params[0]));
         return;
       }
 
@@ -34,7 +39,7 @@ export default class SetOffTopicChannel implements Command {
         await Settings.create('off_topic_channel', channel.id);
       }
 
-      await deleteMessage(await sendMessage(message, `ahora ${channel} es el canal off-topic.`, params.command));
+      await deleteMessage(await sendMessage(message, `ahora ${channel} es el canal off-topic.`, params[0]));
     } catch (error) {
       console.error('Set off-topic Channel', error);
     }

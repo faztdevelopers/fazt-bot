@@ -5,31 +5,30 @@ import BotDescriptionEmbed from '../../embeds/BotDescriptionEmbed';
 import { isMusicChannel } from '../../utils/music';
 
 export default class CommandsList implements Command {
-  format: RegExp = /^((?<command>(info|help|commands|comandos))+(\s(?<type>(música|music|general|developer|desarrollo|moderation|moderación|mod|dev)))?)$/;
-  names: string[] = ['info', 'help', 'commands', 'comandos'];
+  names: Array<string> = ['info', 'help', 'commands', 'comandos'];
   arguments: string = '(música/general)';
   group: CommandGroup = 'general';
   description: string = 'Mira la lista de comandos.';
 
-  async onCommand(message: Message, client: Client, params: { [key: string]: string }): Promise<void> {
+  async onCommand(message: Message, client: Client, params: Array<string>): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;
       }
 
       let group: CommandGroup | null = null;
-      if (params.type === 'música' || params.type === 'music') {
+      if (params[1] === 'música' || params[1] === 'music') {
         group = 'music';
-      } else if (params.type === 'general') {
+      } else if (params[1] === 'general') {
         group = 'general';
-      } else if (params.type === 'developer' || params.type === 'desarrollo' || params.type === 'dev') {
+      } else if (params[1] === 'developer' || params[1] === 'desarrollo' || params[1] === 'dev') {
         const devRole: string | null = (await getByName('developer_role'))?.value || null;
         if (!message.member.hasPermission('ADMINISTRATOR') || (devRole && !message.member.roles.cache.has(devRole))) {
           return;
         }
 
         group = 'developer';
-      } else if (params.type === 'moderation' || params.type === 'moderación' || params.type === 'mod') {
+      } else if (params[1] === 'moderation' || params[1] === 'moderación' || params[1] === 'mod') {
         const devRole: string | null = (await getByName('moderation_role'))?.value || null;
         if (!message.member.hasPermission('ADMINISTRATOR') || (devRole && !message.member.roles.cache.has(devRole))) {
           return;

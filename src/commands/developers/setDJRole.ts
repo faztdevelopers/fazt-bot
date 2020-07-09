@@ -3,13 +3,12 @@ import { Message, Client } from 'discord.js';
 import * as Settings from '../../utils/settings';
 
 export default class SetDJRole implements Command {
-  format: RegExp = /^((?<command>(setdjrole))\s<@&(?<role>\d+)>)$/;
-  names: string[] = ['setdjrole'];
+  names: Array<string> = ['setdjrole'];
   arguments: string = '(rol)';
   group: CommandGroup = 'developer';
   description: string = 'Agrega un rol de DJ del bot.';
 
-  async onCommand(message: Message, bot: Client, params: { [key: string]: string }) {
+  async onCommand(message: Message, bot: Client, params: Array<string>) {
     try {
       if (!message.guild || !message.member) {
         return;
@@ -22,19 +21,25 @@ export default class SetDJRole implements Command {
 
       await message.delete();
 
-      const role = message.guild.roles.cache.get(params.role);
+      const roleID: string = (params[1] || '').replace('<@&', '').replace('>', '');
+      if (!roleID || !roleID.length) {
+        await deleteMessage(await sendMessage(message, 'debes ingresar un rol.', params[0]));
+        return;
+      }
+
+      const role = message.guild.roles.cache.get(roleID);
       if (!role) {
-        await sendMessage(message, 'el rol no existe.', params.command);
+        await deleteMessage(await sendMessage(message, 'el rol no existe.', params[0]));
         return;
       }
 
       if (await Settings.hasByName('dj_role')) {
-        await Settings.update('dj_role', params.role);
+        await Settings.update('dj_role', role.id);
       } else {
-        await Settings.create('dj_role', params.role);
+        await Settings.create('dj_role', role.id);
       }
 
-      await deleteMessage(await sendMessage(message, `ahora ${role} es el rol de DJ del bot.`, params.command));
+      await deleteMessage(await sendMessage(message, `ahora ${role} es el rol de DJ del bot.`, params[0]));
     } catch (error) {
       console.error('Set DJ Role Command', error);
     }
