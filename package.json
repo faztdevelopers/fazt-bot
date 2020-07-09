@@ -23,6 +23,7 @@
     "axios": "^0.19.2",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
+    "figlet": "^1.4.0",
     "mongoose": "^5.9.22",
     "simple-youtube-api": "^5.2.1",
     "ytdl-core": "^3.1.2"
