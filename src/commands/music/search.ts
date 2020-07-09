@@ -1,11 +1,13 @@
 import Command, { sendMessage, deleteMessage } from '../command';
-import { Message, MessageEmbed } from 'discord.js';
+import { Message, MessageEmbed, Client } from 'discord.js';
 import * as YouTube from '../../utils/music';
 import { prefix } from '../..';
 
-const Search: Command = {
-  format: /^((?<command>(search|buscar|s))+(\s(?<search>[\s\S]+))?)$/,
-  execute: async function (message: Message, params: { [key: string]: string }) {
+export default class SearchCommand implements Command {
+
+  format = /^((?<command>(search|buscar|s))+(\s(?<search>[\s\S]+))?)$/
+
+  async onCommand(message: Message, bot: Client, params: {[key: string]: string}){
     try {
       if (!message.guild || !message.member) {
         return;
@@ -115,7 +117,7 @@ const Search: Command = {
         if (yt == null) {
           await sendMessage(message, 'el API excedió el límite de peticiones.', params.command);
         } else {
-          await this.execute(message, params);
+          await this.onCommand(message, bot, params);
         }
 
         return;
@@ -123,7 +125,5 @@ const Search: Command = {
 
       console.error('Search Song Command', error);
     }
-  },
-};
-
-export default Search;
+  }
+}
