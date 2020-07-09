@@ -15,16 +15,15 @@ export interface PackageInfo {
 }
 
 export default class NPM implements Command {
-  format: RegExp = /^((?<command>(npm))+(\s(?<package>[\s\S]+))?)$/;
-  names: string[] = ['npm'];
+  names: Array<string> = ['npm'];
   arguments: string = '(package)';
   group: CommandGroup = 'general';
   description: string = 'Obtén la información de un package de NPM.';
 
-  async onCommand(message: Message, bot: Client, params: { [key: string]: string }) {
+  async onCommand(message: Message, bot: Client, params: Array<string>) {
     try {
-      if (!params.package) {
-        await sendMessage(message, 'debes ingresar el nombre de un package.', params.command);
+      if (!params[1]) {
+        await sendMessage(message, 'debes ingresar el nombre de un package.', params[0]);
         return;
       }
 
@@ -35,7 +34,7 @@ export default class NPM implements Command {
         unpublished: false,
       };
 
-      const packageData = (await axios.get(`https://registry.npmjs.org/${params.package}`)).data;
+      const packageData = (await axios.get(`https://registry.npmjs.org/${params[1]}`)).data;
 
       packageInfo.name = packageData.name;
       if (packageData['dist-tags']) {
@@ -56,7 +55,7 @@ export default class NPM implements Command {
 
       await message.channel.send(new PackageEmbed(packageInfo));
     } catch (error) {
-      await sendMessage(message, `el package **${params.package}** no existe.`, params.command);
+      await sendMessage(message, `el package **${params[1]}** no existe.`, params[0]);
     }
   };
 }

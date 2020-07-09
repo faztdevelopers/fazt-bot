@@ -24,11 +24,11 @@ const onMessage = async (message: Message, bot: Client, prefix: string, commands
     return;
   }
 
-  const msg: string = message.content.slice(prefix.length);
+  const params: string[] = message.content.slice(prefix.length).split(' ');
   if (commandsCache.length) {
     for await (let command of commandsCache) {
-      if (command.format.test(msg)) {
-        await command.onCommand(message, bot, msg.match(command.format)?.groups || {})
+      if (command.names.includes(params[0].toLowerCase())) {
+        await command.onCommand(message, bot, params);
       }
     }
   }

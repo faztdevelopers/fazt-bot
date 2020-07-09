@@ -3,36 +3,26 @@ import { Message, Client } from 'discord.js';
 import figlet from 'figlet';
 
 export default class Ascii implements Command {
-  format: RegExp = /^((?<command>(ascii|figlet))+(\s(?<message>[\s\S]+))?)$/;
-  names: string[] = ['ascii', 'figlet'];
+  names: Array<string> = ['ascii', 'figlet'];
   arguments: string = '(mensaje)';
   group: CommandGroup = 'general';
   description: string = 'Coloca un mensaje en código ASCII.';
 
-  async onCommand(
-    message: Message,
-    bot: Client,
-    params: { [key: string]: string }
-  ): Promise<void> {
+  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
     try {
       if (!message.guild) {
         return;
       }
 
-      if (!params.message) {
-        await deleteMessage(
-          await sendMessage(
-            message,
-            'debes colocar un mensaje.',
-            params.command
-          )
-        );
+      const msg: string = params.slice(1).join(' ');
+      if (!msg) {
+        await deleteMessage(await sendMessage(message, 'debes colocar un mensaje.', params[0]));
         return;
       }
 
-      const text = figlet.textSync(params.message);
+      const text = figlet.textSync(msg);
 
-      await sendMessage(message, '```' + text + '```', params.command);
+      await sendMessage(message, '```' + text + '```', params[0]);
     } catch (error) {
       console.error('Suggest error', error);
     }
