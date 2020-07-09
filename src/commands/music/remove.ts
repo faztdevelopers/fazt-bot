@@ -4,7 +4,6 @@ import * as YouTube from '../../utils/music';
 import { prefix } from '../..';
 
 export default class RemoveCommand implements Command {
-  format = /^(((?<command>(remove|delete|eliminar))\s(?<index>\d+))+(\s(?<forced>(forced)))?)$/;
   names: Array<string> = ['remove', 'delete', 'eliminar'];
   arguments = '(Número)';
   group: CommandGroup = 'music';
