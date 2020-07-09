@@ -3,7 +3,7 @@
 import Command, { deleteMessage, sendMessage, CommandGroup } from '../command';
 import { Message, Client } from 'discord.js';
 import * as YouTube from '../../utils/music';
-import ListSongEmbed, { InvalidPageNumberError } from '../../embeds/ListSongsEmbed';
+import ListSongEmbed, { InvalidPageNumberError } from '../../embeds/listSongsEmbed';
 
 export default class ListCommand implements Command {
   names: Array<string> = ['list', 'queue', 'lista'];

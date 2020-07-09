@@ -2,7 +2,7 @@
 
 import Command, { CommandGroup, sendMessage } from '../command';
 import { Message, Client, Role } from 'discord.js';
-import RolesEmbed from '../../embeds/RolesEmbed';
+import RolesEmbed from '../../embeds/rolesEmbed';
 
 export default class Roles implements Command {
   names: Array<string> = ['role'];

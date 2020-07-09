@@ -3,7 +3,7 @@
 import Command, { CommandGroup, sendMessage } from '../command';
 import { Message, Client } from 'discord.js';
 import axios from 'axios';
-import PackageEmbed from '../../embeds/PackageEmbed';
+import PackageEmbed from '../../embeds/packageEmbed';
 
 export interface PackageInfo {
   name: string;
