@@ -3,7 +3,6 @@ import { Message, Client } from 'discord.js';
 import * as Settings from '../../utils/settings';
 
 export default class SetMusicChannel implements Command {
-  format = /^((?<command>(setmusicchannel))\s<#(?<channel>\d+)>)$/;
   names: Array<string> = ['setmusicchannel'];
   arguments = '(canal)';
   group: CommandGroup = 'developer';
