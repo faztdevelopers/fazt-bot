@@ -10,7 +10,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/faztdevelopers/fazt-bot.git"
+    "url": "git+https://github.com/faztdevelopers/fazt-bot.git",
+    "lint": "eslint src/**/*"
   },
   "author": "Fazt Community",
   "license": "ISC",
