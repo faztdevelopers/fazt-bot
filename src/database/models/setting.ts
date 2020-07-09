@@ -18,8 +18,8 @@ const Setting: Schema = new Schema({
 });
 
 Setting.methods.getValueAsNumber = function () {
-  const num: number = Number(this.value);
+  const num = Number(this.value);
   return isNaN(num) ? 0 : num;
-}
+};
 
 export const model = mModel<Setting>('setting', Setting);

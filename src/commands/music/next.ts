@@ -24,7 +24,7 @@ export default class NextCommand implements Command {
         return;
       }
 
-      let queue = YouTube.queues[message.guild.id];
+      const queue = YouTube.queues[message.guild.id];
       if (!queue || !queue.playing || !queue.playingDispatcher) {
         await sendMessage(message, 'no estoy reproduciendo música.', params.command);
         return;

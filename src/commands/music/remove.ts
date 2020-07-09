@@ -25,7 +25,7 @@ export default class RemoveCommand implements Command {
         return;
       }
 
-      let queue = YouTube.queues[message.guild.id];
+      const queue = YouTube.queues[message.guild.id];
       if (!queue || !queue.playing || !queue.playingDispatcher) {
         await sendMessage(message, 'no estoy reproduciendo música.', params.command);
         return;
@@ -36,7 +36,7 @@ export default class RemoveCommand implements Command {
         return;
       }
 
-      const i: number = Number(params.index);
+      const i = Number(params.index);
       if (isNaN(i) || i <= 0) {
         await sendMessage(message, 'el número no es válido.', params.command);
         return;

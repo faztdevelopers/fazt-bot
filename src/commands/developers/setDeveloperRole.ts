@@ -5,7 +5,7 @@ import * as Settings from '../../utils/settings';
 export default class SetDeveloperRole implements Command {
   format = /^((?<command>(setdevrole|setdeveloperrole))\s<@&(?<role>\d+)>)$/
 
-  async onCommand(message: Message, bot: Client, params: {[key: string]: string}){
+  async onCommand(message: Message, bot: Client, params: { [key: string]: string }) {
     try {
       if (!message.guild || !message.member || !message.member.permissions.has('ADMINISTRATOR')) {
         return;

@@ -55,7 +55,7 @@ export default class SearchCommand implements Command {
           return;
         }
 
-        const i: number = Number(song);
+        const i = Number(song);
         if (isNaN(i) || i <= 0 || i > 10) {
           return;
         }
@@ -98,8 +98,8 @@ export default class SearchCommand implements Command {
 
       const songs: string[] = [];
 
-      let i: number = 0;
-      for await (let result of results) {
+      let i = 0;
+      for await (const result of results) {
         songs.push(`${i + 1}. **${YouTube.filterTitle(result.title)}** de **${result.channel.title}**`);
         i++;
       }

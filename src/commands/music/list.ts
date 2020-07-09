@@ -1,7 +1,7 @@
 import Command, { deleteMessage, sendMessage } from '../command';
 import { Message, MessageEmbed, Client } from 'discord.js';
 import * as YouTube from '../../utils/music';
-import ListSongEmbed, {InvalidPageNumberError} from "../../embeds/ListSongsEmbed"
+import ListSongEmbed, {InvalidPageNumberError} from '../../embeds/ListSongsEmbed';
 
 export default class ListCommand implements Command {
 
@@ -20,7 +20,7 @@ export default class ListCommand implements Command {
         return;
       }
 
-      let queue = YouTube.queues[message.guild.id];
+      const queue = YouTube.queues[message.guild.id];
       if (!queue) {
         await sendMessage(message, 'no estoy reproduciendo música.', params.command);
         return;
@@ -31,7 +31,7 @@ export default class ListCommand implements Command {
         return;
       }
       
-      const page: number = Number(params.page || 1);
+      const page = Number(params.page || 1);
       
       await message.channel.send(new ListSongEmbed(bot, queue, page));
 
