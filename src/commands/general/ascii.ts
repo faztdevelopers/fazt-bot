@@ -4,7 +4,7 @@ import { getByName } from '../../utils/settings';
 import SuggestionEmbed from '../../embeds/SuggestionEmbed';
 import figlet from 'figlet';
 
-export default class Suggest implements Command {
+export default class Ascii implements Command {
   format = /^(?<command>(ascii|figlet)+(\s(?<message>[\s\S]+))?)/;
 
   async onCommand(
