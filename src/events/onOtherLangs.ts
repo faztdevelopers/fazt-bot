@@ -12,10 +12,10 @@ const onOtherLangs = async (message: Message): Promise<void> => {
     }
   })).data[0];
 
-  let msg: string = '';
+  let msg = '';
   if (texts.length) {
     const str: string[] = [];
-    for (let text of texts) {
+    for (const text of texts) {
       str.push(text[0]);
     }
 
@@ -29,10 +29,10 @@ const onOtherLangs = async (message: Message): Promise<void> => {
   msg = msg.replace(/<@!\s/gi, '<@!').replace(/<#\s/gi, '<#').replace(/<@\s&\s/gi, '<@&');
 
   const emojiReplace = (msg: string, lastIndex: number): string => {
-    let firstI: number = -1;
-    let secondI: number = -1;
-    let thirdI: number = -1;
-    let isAnimated: boolean = false;
+    let firstI = -1;
+    let secondI = -1;
+    let thirdI = -1;
+    let isAnimated = false;
 
     if (msg.indexOf('<a:', lastIndex) >= 0) {
       firstI = msg.indexOf('<a:', lastIndex) + 3;

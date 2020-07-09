@@ -8,7 +8,7 @@ const onMention = async (message: Message): Promise<void> => {
 
   const index: number = Math.floor(Math.random() * 50);
 
-  let quote: string = '';
+  let quote = '';
   if (index <= 25) {
     const data = await axios.get('https://opinionated-quotes-api.gigalixirapp.com/v1/quotes?rand=t&tags=programming');
 
@@ -33,7 +33,7 @@ const onMention = async (message: Message): Promise<void> => {
 
     if (texts.length) {
       const str: string[] = [];
-      for (let text of texts) {
+      for (const text of texts) {
         str.push(text[0]);
       }
 

@@ -1,7 +1,7 @@
 import Command from '../command';
 import { Message, MessageEmbed, Client } from 'discord.js';
 import { prefix } from '../..';
-import BotDescriptionEmbed from "../../embeds/BotDescriptionEmbed"
+import BotDescriptionEmbed from '../../embeds/BotDescriptionEmbed';
 
 export default class CommandsList implements Command {
 

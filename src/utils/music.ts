@@ -24,12 +24,12 @@ export const queues: { [guildID: string]: IQueue } = {};
 
 export const filterTitle = (title: string): string => (
   title
-    .replace(/&#39;/gi, "'")
+    .replace(/&#39;/gi, '\'')
     .replace(/&amp;/gi, '&')
 );
 
 export const timeToString = (time: number): string => {
-  let str: string = '';
+  let str = '';
   let timeLeft: number = time;
 
   const hours: number = Math.floor(timeLeft / (60 * 60));
@@ -101,7 +101,7 @@ export const play = async (guildID: string): Promise<boolean> => {
 
   queue.playing = true;
 
-  const songURL: string = `https://www.youtube.com/watch?v=${nextSong.id}`;
+  const songURL = `https://www.youtube.com/watch?v=${nextSong.id}`;
 
   const message = await queue.textChannel.send(
     new MessageEmbed()
@@ -120,7 +120,7 @@ export const play = async (guildID: string): Promise<boolean> => {
     filter: 'audioonly',
   });
 
-  let onStreamError: boolean = false;
+  let onStreamError = false;
 
   stream.on('error', (error) => {
     onStreamError = true;
@@ -140,7 +140,7 @@ export const play = async (guildID: string): Promise<boolean> => {
 
   queue.playingDispatcher = queue.connection.play(stream);
 
-  let volume: number = 6;
+  let volume = 6;
 
   const volumeSetting: string | null = (await settingName('volume_bot'))?.value || null;
   if (volumeSetting != null && !isNaN(Number(volumeSetting))) {
@@ -234,7 +234,7 @@ export const voteSystem = async (message: Message, command: string[], extra: { [
 
         await sendMessage(message, 'he parado de reproducir música.', command[1]);
       } else if (command[0].toLowerCase() === 'remove') {
-        const i: number = Number(extra.song_index);
+        const i = Number(extra.song_index);
         delete extra.song_index;
 
         queue.songs.splice(i, 1);
@@ -259,7 +259,7 @@ export const voteSystem = async (message: Message, command: string[], extra: { [
   const approveEmoji: GuildEmoji | null = bot.emojis.cache.find((e) => e.name === 'check_2') || null;
   const disapproveEmoji: GuildEmoji | null = bot.emojis.cache.find((e) => e.name === 'x2') || null;
 
-  const extraMessage: string = `Vota con (${approveEmoji || ''}) para aceptarlo o con (${disapproveEmoji || ''}) para rechazarlo.`;
+  const extraMessage = `Vota con (${approveEmoji || ''}) para aceptarlo o con (${disapproveEmoji || ''}) para rechazarlo.`;
   let msg: Message | null = null;
 
   if (command[0].toLowerCase() === 'next') {
@@ -277,9 +277,9 @@ export const voteSystem = async (message: Message, command: string[], extra: { [
   await msg.react(approveEmoji || '');
   await msg.react(disapproveEmoji || '');
 
-  let votes: string[] = [];
-  let approve: number = 0;
-  let disapprove: number = 0;
+  const votes: string[] = [];
+  let approve = 0;
+  let disapprove = 0;
 
   const collector = msg.createReactionCollector((reaction: MessageReaction, user: User) => (
     (reaction.emoji.name === 'check_2' || reaction.emoji.name === 'x2') &&
@@ -310,7 +310,7 @@ export const voteSystem = async (message: Message, command: string[], extra: { [
 
     const minVotes: number = Math.floor(memberCount / 2);
 
-    const extraMessage: string = `**(${approveEmoji} ${approve} - ${disapproveEmoji} ${disapprove})**`;
+    const extraMessage = `**(${approveEmoji} ${approve} - ${disapproveEmoji} ${disapprove})**`;
     if (approve === disapprove) {
       await message.channel.send(`**[${command[1].toUpperCase()}]** ¡Ha ocurrido un empate! ${extraMessage}`);
     } else if (votes.length < minVotes) {
@@ -326,7 +326,7 @@ export const voteSystem = async (message: Message, command: string[], extra: { [
 
           await sendMessage(message, 'he parado de reproducir música.', command[1]);
         } else if (command[0].toLowerCase() === 'remove') {
-          const i: number = Number(extra.song_index);
+          const i = Number(extra.song_index);
           delete extra.song_index;
 
           queue.songs.splice(i, 1);
@@ -364,11 +364,11 @@ if (yvar) {
   ytVars = [];
 }
 
-let ytI: number = 0;
+let ytI = 0;
 
 let ytClass: any = null;
 
-export const yt = (force: boolean = false, change: boolean = false) => {
+export const yt = (force = false, change = false) => {
   if (ytClass == null || force) {
     if (change) {
       if (ytI >= ytVars.length) {

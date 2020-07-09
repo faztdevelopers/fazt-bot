@@ -11,10 +11,10 @@ const paths: string[] = [
 ];
 
 if (paths.length) {
-  for (let path of paths) {
+  for (const path of paths) {
     const files = fs.readdirSync(nPath.resolve(__dirname, path));
     if (files.length) {
-      for (let fileName of files) {
+      for (const fileName of files) {
         if (!fileName.endsWith('.ts') && !fileName.endsWith('.js')) {
           continue;
         }

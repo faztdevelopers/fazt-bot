@@ -3,8 +3,8 @@ import { Message, MessageEmbed, GuildChannel, TextChannel, Client } from 'discor
 import { getByName } from '../../utils/settings';
 import SuggestionEmbed from 'embeds/SuggestionEmbed';
 
-const Suggest: Command = {
-  format: /^(?<command>(sugerencia|suggestion)+(\s(?<message>[\s\S]+))?)/,
+export default class Suggest extends Command {
+  format = /^(?<command>(sugerencia|suggestion)+(\s(?<message>[\s\S]+))?)/
   async onCommand(message: Message, bot: Client, params: { [key: string]: string }): Promise<void> {
     try {
       if (!message.guild) {
@@ -39,5 +39,3 @@ const Suggest: Command = {
     }
   },
 };
-
-export default Suggest;
