@@ -1,3 +1,5 @@
+// Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
+
 import { Client, ActivityOptions } from 'discord.js';
 
 const onReady = (bot: Client, prefix: string): void => {

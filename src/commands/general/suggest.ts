@@ -1,7 +1,9 @@
+// Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
+
 import Command, { sendMessage, deleteMessage, CommandGroup } from '../command';
 import { Message, GuildChannel, TextChannel, Client } from 'discord.js';
 import { getByName } from '../../utils/settings';
-import SuggestionEmbed from '../../embeds/SuggestionEmbed';
+import SuggestionEmbed from '../../embeds/suggestionEmbed';
 
 export default class Suggest implements Command {
   names: Array<string> = ['sugerencia', 'suggestion'];

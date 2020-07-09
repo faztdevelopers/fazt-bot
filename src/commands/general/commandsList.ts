@@ -1,7 +1,9 @@
+// Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
+
 import Command, { CommandGroup } from '../command';
 import { Message, Client } from 'discord.js';
 import { getByName } from '../../utils/settings';
-import BotDescriptionEmbed from '../../embeds/BotDescriptionEmbed';
+import BotDescriptionEmbed from '../../embeds/botDescriptionEmbed';
 import { isMusicChannel } from '../../utils/music';
 
 export default class CommandsList implements Command {

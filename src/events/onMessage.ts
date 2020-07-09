@@ -1,3 +1,5 @@
+// Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
+
 import { Message, Client } from 'discord.js';
 import Command from '../commands/command';
 import onMention from './onMention';

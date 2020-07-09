@@ -1,3 +1,5 @@
+// Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
+
 import { Document, Schema, model as mModel } from 'mongoose';
 
 export interface Setting extends Document {

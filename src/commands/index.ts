@@ -1,3 +1,5 @@
+// Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
+
 import Command from './command';
 import * as nPath from 'path';
 import * as fs from 'fs';

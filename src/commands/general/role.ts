@@ -1,6 +1,8 @@
+// Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
+
 import Command, { CommandGroup, sendMessage } from '../command';
 import { Message, Client, Role } from 'discord.js';
-import RolesEmbed from '../../embeds/RolesEmbed';
+import RolesEmbed from '../../embeds/rolesEmbed';
 
 export default class Roles implements Command {
   names: Array<string> = ['role'];
@@ -95,7 +97,7 @@ export default class Roles implements Command {
             await sendMessage(message, 'ahora tienes el rol de **Taller**', params[0]);
           }
         } else {
-          await sendMessage(message, 'el rol no es válido', params[0]);
+          await sendMessage(message, 'el rol no es válido.', params[0]);
         }
 
         break;

@@ -1,3 +1,5 @@
+// Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
+
 import Command, { sendMessage, deleteMessage, CommandGroup } from '../command';
 import { Message, Client } from 'discord.js';
 import * as Settings from '../../utils/settings';

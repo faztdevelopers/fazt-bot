@@ -1,3 +1,5 @@
+// Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
+
 import { MessageEmbed, User } from 'discord.js';
 
 export default class SuggestionEmbed extends MessageEmbed {

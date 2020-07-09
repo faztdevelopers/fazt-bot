@@ -1,3 +1,5 @@
+// Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
+
 import { MessageEmbed } from 'discord.js';
 import { prefix } from '..';
 
@@ -24,7 +26,7 @@ export default class extends MessageEmbed {
         inline: false,
       },
       {
-        name: 'd) Game',
+        name: 'd) Games',
         value: 'Programadores y desarrolladores de juegos.',
         inline: false,
       },

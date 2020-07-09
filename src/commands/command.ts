@@ -1,3 +1,5 @@
+// Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
+
 import { Message, Client } from 'discord.js';
 
 export const sendMessage = async (message: Message, content: string, command: string): Promise<Message | null> => {
