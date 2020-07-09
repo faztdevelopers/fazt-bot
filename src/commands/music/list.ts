@@ -1,13 +1,16 @@
-import Command, { deleteMessage, sendMessage } from '../command';
-import { Message, MessageEmbed, Client } from 'discord.js';
+import Command, { deleteMessage, sendMessage, CommandGroup } from '../command';
+import { Message, Client } from 'discord.js';
 import * as YouTube from '../../utils/music';
-import ListSongEmbed, {InvalidPageNumberError} from '../../embeds/ListSongsEmbed';
+import ListSongEmbed, { InvalidPageNumberError } from '../../embeds/ListSongsEmbed';
 
 export default class ListCommand implements Command {
+  format: RegExp = /^((?<command>(list|queue|lista))+(\s(?<page>\d+))?)$/;
+  names: string[] = ['list', 'queue', 'lista'];
+  arguments: string = '(página)';
+  group: CommandGroup = 'music';
+  description: string = 'Mira la lista de reproducción actual.';
 
-  format = /^((?<command>(list|queue|lista))+(\s(?<page>\d+))?)$/
-
-  async onCommand(message: Message, bot: Client, params: {[key: string]: string}) {
+  async onCommand(message: Message, bot: Client, params: { [key: string]: string }) {
     try {
       if (!message.guild) {
         return;
@@ -30,13 +33,12 @@ export default class ListCommand implements Command {
         await sendMessage(message, 'no hay canciones en la lista de reproducción.', params.command);
         return;
       }
-      
-      const page = Number(params.page || 1);
-      
-      await message.channel.send(new ListSongEmbed(bot, queue, page));
 
+      const page = Number(params.page || 1);
+
+      await message.channel.send(new ListSongEmbed(bot, queue, page));
     } catch (error) {
-      if(error instanceof InvalidPageNumberError) {
+      if (error instanceof InvalidPageNumberError) {
         await sendMessage(message, 'la página no es válida', params.command);
       } else {
         console.error('Queue Command', error);

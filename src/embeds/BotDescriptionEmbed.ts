@@ -1,26 +1,46 @@
 import { MessageEmbed } from 'discord.js';
+import { CommandGroup } from 'commands/command';
+import { commandsCache, prefix } from '..';
 
 export default class extends MessageEmbed {
-  constructor(username: string | undefined, prefix: string) {
-    super()
-    this.title = `${username}: Lista de comandos`;
+  constructor(username: string | undefined, group: CommandGroup | null, isMusicChannel: boolean) {
+    super();
+    this.title = `${username}: `;
+
+    if (group === 'developer') {
+      this.title += 'Comandos para desarrolladores';
+    } else if (group === 'moderation') {
+      this.title += 'Comandos para moderadores';
+    } else if (group === 'general') {
+      this.title += 'Comandos generales';
+    } else if (group === 'music') {
+      this.title += 'Comandos de música';
+    } else {
+      this.title += 'Lista de comandos';
+    }
+
     this.color = 0x0FF0022;
-    this.fields = [
-      {
-        name: `${prefix}help/info/commands/comandos`,
-        value: 'Mira la lista de comandos.',
-        inline: false,
-      },
-      {
-        name: `${prefix}suggestion/sugerencia`,
-        value: 'Coloca una sugerencia en el canal de sugerencias.',
-        inline: false,
-      },
-      {
-        name: `${prefix}ascii/figlet`,
-        value: 'Responde con el mismo mensaje en ascii',
-        inline: false,
+
+    if (commandsCache.length) {
+      for (let command of commandsCache) {
+        if (!group) {
+          if (command.group === 'developer' || command.group === 'moderation') {
+            continue;
+          } else if (isMusicChannel && command.group !== 'music') {
+            continue;
+          } else if (!isMusicChannel && command.group !== 'general') {
+            continue;
+          }
+        } else if (command.group !== group) {
+          continue;
+        }
+
+        this.addField(
+          `${prefix}${command.names.join('/')}${command.arguments ? ` ${command.arguments}` : ''}`,
+          command.description,
+          false,
+        );
       }
-    ];
+    }
   }
 }

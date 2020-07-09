@@ -1,13 +1,16 @@
-import Command, { sendMessage, deleteMessage } from '../command';
+import Command, { sendMessage, deleteMessage, CommandGroup } from '../command';
 import { Message, MessageEmbed, Client } from 'discord.js';
 import * as YouTube from '../../utils/music';
 import { prefix } from '../..';
 
 export default class SearchCommand implements Command {
+  format: RegExp = /^((?<command>(search|buscar|s))+(\s(?<search>[\s\S]+))?)$/;
+  names: string[] = ['search', 'buscar', 's'];
+  arguments: string = '(Nombre del vídeo/canción)';
+  group: CommandGroup = 'music';
+  description: string = 'Obtén los 10 primeros resultados de una búsqueda.';
 
-  format = /^((?<command>(search|buscar|s))+(\s(?<search>[\s\S]+))?)$/
-
-  async onCommand(message: Message, bot: Client, params: {[key: string]: string}){
+  async onCommand(message: Message, bot: Client, params: { [key: string]: string }) {
     try {
       if (!message.guild || !message.member) {
         return;

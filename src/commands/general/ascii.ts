@@ -1,9 +1,13 @@
-import Command, { sendMessage, deleteMessage } from '../command';
+import Command, { sendMessage, deleteMessage, CommandGroup } from '../command';
 import { Message, Client } from 'discord.js';
 import figlet from 'figlet';
 
 export default class Ascii implements Command {
-  format = /^(?<command>(ascii|figlet)+(\s(?<message>[\s\S]+))?)/;
+  format: RegExp = /^((?<command>(ascii|figlet))+(\s(?<message>[\s\S]+))?)$/;
+  names: string[] = ['ascii', 'figlet'];
+  arguments: string = '(mensaje)';
+  group: CommandGroup = 'general';
+  description: string = 'Coloca un mensaje en código ASCII.';
 
   async onCommand(
     message: Message,

@@ -1,12 +1,14 @@
-import Command, { sendMessage, deleteMessage } from '../command';
+import Command, { sendMessage, deleteMessage, CommandGroup } from '../command';
 import { Message, Client } from 'discord.js';
 import * as YouTube from '../../utils/music';
 
 export default class NextCommand implements Command {
+  format: RegExp = /^((?<command>(next|siguiente|skip))+(\s(?<forced>(forced)))?)$/;
+  names: string[] = ['next', 'siguiente', 'skip'];
+  group: CommandGroup = 'music';
+  description = 'Cambia a la siguiente canción (Si hay más de 2 oyentes se hará votación).';
 
-  format = /^(?<command>(next|siguiente|skip))$/
-
-  async onCommand(message: Message, bot: Client, params: {[key: string]: string}){
+  async onCommand(message: Message, bot: Client, params: { [key: string]: string }) {
     try {
       if (!message.guild || !message.member) {
         return;
@@ -40,7 +42,7 @@ export default class NextCommand implements Command {
         return;
       }
 
-      await YouTube.voteSystem(message, ['next', params.command]);
+      await YouTube.voteSystem(message, ['next', params.command], params.forced === 'forced');
     } catch (error) {
       console.error('Next song command', error);
     }

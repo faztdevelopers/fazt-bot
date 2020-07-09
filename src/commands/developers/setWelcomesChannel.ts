@@ -1,9 +1,13 @@
-import Command, { deleteMessage, sendMessage } from '../command';
+import Command, { deleteMessage, sendMessage, CommandGroup } from '../command';
 import { Message, Client } from 'discord.js';
 import * as Settings from '../../utils/settings';
 
 export default class SetWelcomesChannel implements Command {
-  format = /^((?<command>(setwelcomeschannel))\s<#(?<channel>\d+)>)$/
+  format: RegExp = /^((?<command>(setwelcomeschannel))\s<#(?<channel>\d+)>)$/;
+  names: string[] = ['setwelcomeschannel'];
+  arguments: string = '(canal)';
+  group: CommandGroup = 'developer';
+  description: string = 'Agrega un canal para los mensajes de bienvenida.';
 
   async onCommand(message: Message, bot: Client, params: { [key: string]: string }) {
     try {

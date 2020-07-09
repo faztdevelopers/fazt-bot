@@ -1,10 +1,14 @@
-import Command, { sendMessage, deleteMessage } from '../command';
+import Command, { sendMessage, deleteMessage, CommandGroup } from '../command';
 import { Message, GuildChannel, TextChannel, Client } from 'discord.js';
 import { getByName } from '../../utils/settings';
 import SuggestionEmbed from '../../embeds/SuggestionEmbed';
 
 export default class Suggest implements Command {
-  format = /^(?<command>(sugerencia|suggestion)+(\s(?<message>[\s\S]+))?)/;
+  format: RegExp = /^((?<command>(sugerencia|suggestion))+(\s(?<message>[\s\S]+))?)$/;
+  names: string[] = ['sugerencia', 'suggestion'];
+  arguments: string = '(mensaje)';
+  group: CommandGroup = 'general';
+  description: string = 'Realiza una nueva sugerencia para el servidor.';
 
   async onCommand(message: Message, bot: Client, params: { [key: string]: string }): Promise<void> {
     try {

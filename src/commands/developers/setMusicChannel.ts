@@ -1,11 +1,15 @@
-import Command, { deleteMessage, sendMessage } from '../command';
+import Command, { deleteMessage, sendMessage, CommandGroup } from '../command';
 import { Message, Client } from 'discord.js';
 import * as Settings from '../../utils/settings';
 
 export default class SetMusicChannel implements Command {
-  format = /^((?<command>(setmusicchannel))\s<#(?<channel>\d+)>)$/
+  format: RegExp = /^((?<command>(setmusicchannel))\s<#(?<channel>\d+)>)$/;
+  names: string[] = ['setmusicchannel'];
+  arguments: string = '(canal)';
+  group: CommandGroup = 'developer';
+  description: string = 'Agrega un canal de música.';
 
-  async onCommand(message: Message, bot: Client, params:{[key: string]: string}) {
+  async onCommand(message: Message, bot: Client, params: { [key: string]: string }) {
     try {
       if (!message.guild || !message.member) {
         return;

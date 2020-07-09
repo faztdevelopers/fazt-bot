@@ -1,9 +1,13 @@
-import Command, { sendMessage, deleteMessage } from '../command';
+import Command, { sendMessage, deleteMessage, CommandGroup } from '../command';
 import { Message, Client } from 'discord.js';
 import * as Settings from '../../utils/settings';
 
 export default class SetDeveloperRole implements Command {
-  format = /^((?<command>(setdevrole|setdeveloperrole))\s<@&(?<role>\d+)>)$/
+  format: RegExp = /^((?<command>(setdevrole|setdeveloperrole))\s<@&(?<role>\d+)>)$/;
+  names: string[] = ['setdevrole', 'setdeveloperrole'];
+  arguments: string = '(rol)';
+  group: CommandGroup = 'developer';
+  description: string = 'Agrega un rol de desarrollador del bot.';
 
   async onCommand(message: Message, bot: Client, params: { [key: string]: string }) {
     try {
