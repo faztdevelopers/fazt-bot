@@ -3,17 +3,23 @@
 import Command, { sendMessage, deleteMessage, CommandGroup } from '../command';
 import { Message, GuildChannel, TextChannel, Client } from 'discord.js';
 import { getByName } from '../../utils/settings';
+import * as Settings from '../../utils/settings';
 import votationEmbed from '../../embeds/votationEmbed';
 
 export default class Votation implements Command {
   names: Array<string> = ['votacion', 'votation', 'vote'];
   arguments = '(mensaje)';
-  group: CommandGroup = 'general';
+  group: CommandGroup = 'moderation';
   description = 'Realiza una nueva votacion para la comunidad.';
 
   async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
     try {
-      if (!message.guild) {
+      if (!message.guild || !message.member) {
+        return;
+      }
+
+      const moderatorRole: string | null = (await Settings.getByName('moderator_role'))?.value || null;
+      if (!message.member.hasPermission('ADMINISTRATOR') || (moderatorRole && !message.member.roles.cache.has(moderatorRole))) {
         return;
       }
 
@@ -39,7 +45,7 @@ export default class Votation implements Command {
       const urlInParams = new RegExp('([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?([^ ])+');
 
       const url: string[] = [];
-      
+
       const urlCheck = msg.match(urlInParams);
       if (urlCheck) {
         const urlIndex = url.push(urlCheck[0]);

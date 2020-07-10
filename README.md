@@ -23,5 +23,4 @@
 * **Daniel Solarte** [GitHub](https://github.com/danielsolartech)
 * **The Ghost** [GitHub](https://github.com/YesnielX)
 
-
 # [LICENSE](./LICENSE)
