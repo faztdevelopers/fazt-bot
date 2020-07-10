@@ -2,7 +2,7 @@
 
 # TO-DO
 - [x] Suggestions
-- [ ] Votes
+- [x] Votes
 - [ ] Roles with reactions
 - [ ] Verification system
 - [x] Music commands

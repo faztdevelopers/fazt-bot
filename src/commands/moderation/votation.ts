@@ -59,7 +59,7 @@ export default class Votation implements Command {
       await embedMessage.react(bot.emojis.cache.find((e) => e.name === 'check_2') || '👍');
       await embedMessage.react(bot.emojis.cache.find((e) => e.name === 'x2') || '👎');
     } catch (error) {
-      console.error('Suggest error', error);
+      console.error('Votacion error', error);
     }
   }
 }

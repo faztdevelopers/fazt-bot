@@ -26,7 +26,7 @@ export default class Ascii implements Command {
 
       await sendMessage(message, '```' + text + '```', params[0]);
     } catch (error) {
-      console.error('Suggest error', error);
+      console.error('Ascii error', error);
     }
   }
 }
