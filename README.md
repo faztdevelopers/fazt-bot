@@ -21,6 +21,6 @@
 * **Tati** [GitHub](https://github.com/tati1206)
 * **zd4y** [GitHub](https://github.com/zd4y)
 * **Daniel Solarte** [GitHub](https://github.com/danielsolartech)
-* **The Ghost** [GitHub](https://github.com/YesnielX)
+* **YesnielX** [GitHub](https://github.com/YesnielX)
 
 # [LICENSE](./LICENSE)
