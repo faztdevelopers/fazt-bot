@@ -10,15 +10,15 @@ export default class Roles implements Command {
   group: CommandGroup = 'general';
   description = 'Colócate un rol.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
+  async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
     try {
       if (!message.member) {
         return;
       }
 
-      const role: string = (params[1] || '').toLowerCase();
+      const role: string = (params[0] || '').toLowerCase();
       if (!role || !role.length) {
-        await sendMessage(message, 'debes especificar un rol.', params[0]);
+        await sendMessage(message, 'debes especificar un rol.', alias);
         return;
       }
 
@@ -30,7 +30,7 @@ export default class Roles implements Command {
 
       case 'list': {
         const roles: string[] = message.member.roles.cache.filter((r) => r.name !== '@everyone').map((r) => r.name);
-        await sendMessage(message, `tus roles son:\r\n${roles.map((r) => `🏅 ${r}`).join('\r\n')}`, params[0]);
+        await sendMessage(message, `tus roles son:\r\n${roles.map((r) => `🏅 ${r}`).join('\r\n')}`, alias);
         break;
       }
 
@@ -43,12 +43,12 @@ export default class Roles implements Command {
         ));
 
         if (!roles.size) {
-          await sendMessage(message, 'no tienes roles para eliminar.', params[0]);
+          await sendMessage(message, 'no tienes roles para eliminar.', alias);
           return;
         }
 
         await message.member.roles.remove(roles);
-        await sendMessage(message, 'tus roles fueron eliminados.', params[0]);
+        await sendMessage(message, 'tus roles fueron eliminados.', alias);
         break;
       }
 
@@ -64,7 +64,7 @@ export default class Roles implements Command {
           }
 
           if (message.member.roles.cache.has(role.id)) {
-            await sendMessage(message, 'ya posees este rol.', params[0]);
+            await sendMessage(message, 'ya posees este rol.', alias);
             return false;
           }
 
@@ -74,30 +74,30 @@ export default class Roles implements Command {
 
         if (role === 'a' || role === 'fullstack') {
           if (await addRole('Dev FullStack')) {
-            await sendMessage(message, 'ahora tienes el rol de **Desarrollador FullStack**', params[0]);
+            await sendMessage(message, 'ahora tienes el rol de **Desarrollador FullStack**', alias);
           }
         } else if (role === 'b' || role === 'backend') {
           if (await addRole('Dev Backend')) {
-            await sendMessage(message, 'ahora tienes el rol de **Desarrollador Backend**', params[0]);
+            await sendMessage(message, 'ahora tienes el rol de **Desarrollador Backend**', alias);
           }
         } else if (role === 'c' || role === 'mobile' || role === 'móvil') {
           if (await addRole('Dev Mobile')) {
-            await sendMessage(message, 'ahora tienes el rol de **Desarrollador de Aplicaciones Móviles**', params[0]);
+            await sendMessage(message, 'ahora tienes el rol de **Desarrollador de Aplicaciones Móviles**', alias);
           }
         } else if (role === 'd' || role === 'games' || role === 'juegos') {
           if (await addRole('Dev Games')) {
-            await sendMessage(message, 'ahora tienes el rol de **Desarrollador de Videojuegos**', params[0]);
+            await sendMessage(message, 'ahora tienes el rol de **Desarrollador de Videojuegos**', alias);
           }
         } else if (role === 'e' || role === 'frontend') {
           if (await addRole('Dev Frontend')) {
-            await sendMessage(message, 'ahora tienes el rol de **Desarrollador Frontend**', params[0]);
+            await sendMessage(message, 'ahora tienes el rol de **Desarrollador Frontend**', alias);
           }
         } else if (role === 'f' || role === 'taller') {
           if (await addRole('Taller')) {
-            await sendMessage(message, 'ahora tienes el rol de **Taller**', params[0]);
+            await sendMessage(message, 'ahora tienes el rol de **Taller**', alias);
           }
         } else {
-          await sendMessage(message, 'el rol no es válido.', params[0]);
+          await sendMessage(message, 'el rol no es válido.', alias);
         }
 
         break;

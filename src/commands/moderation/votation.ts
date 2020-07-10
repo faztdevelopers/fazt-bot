@@ -11,7 +11,7 @@ export default class Votation implements Command {
   group: CommandGroup = 'moderation';
   description = 'Realiza una nueva votacion para la comunidad.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
+  async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;
@@ -34,10 +34,10 @@ export default class Votation implements Command {
 
       await message.delete();
 
-      let msg: string = params.slice(1).join(' ');
+      let msg: string = params.join(' ');
 
       if (!msg) {
-        await deleteMessage(await sendMessage(message, 'la votacion está vacía.', params[0]));
+        await deleteMessage(await sendMessage(message, 'la votacion está vacía.', alias));
         return;
       }
 
@@ -53,7 +53,7 @@ export default class Votation implements Command {
 
       const embedMessage = await (votationChannel as TextChannel).send(new votationEmbed(msg, message.author, url));
 
-      deleteMessage(await sendMessage(message, `Tu votacion se ha enviado a ${(votationChannel as TextChannel)}.`, params[0]));
+      deleteMessage(await sendMessage(message, `Tu votacion se ha enviado a ${(votationChannel as TextChannel)}.`, alias));
 
       await embedMessage.react(bot.emojis.cache.find((e) => e.name === 'check_2') || '👍');
       await embedMessage.react(bot.emojis.cache.find((e) => e.name === 'x2') || '👎');

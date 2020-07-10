@@ -11,7 +11,7 @@ export default class SearchCommand implements Command {
   group: CommandGroup = 'music';
   description = 'Obtén los 10 primeros resultados de una búsqueda.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
+  async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;
@@ -20,25 +20,25 @@ export default class SearchCommand implements Command {
       const musicChannel = await YouTube.isMusicChannel(message);
       if (!musicChannel[0]) {
         await message.delete();
-        await deleteMessage(await sendMessage(message, `solo puedes usar comandos de música en ${musicChannel[1]}`, params[0]));
+        await deleteMessage(await sendMessage(message, `solo puedes usar comandos de música en ${musicChannel[1]}`, alias));
         return;
       }
 
       if (!message.member.voice.channel) {
-        await sendMessage(message, 'no estás en un canal de voz.', params[0]);
+        await sendMessage(message, 'no estás en un canal de voz.', alias);
         return;
       }
 
-      const search: string = params.slice(1).join(' ');
+      const search: string = params.join(' ');
 
       if (!search || !search.length) {
-        await sendMessage(message, 'el parámetro de búsqueda está vacío.', params[0]);
+        await sendMessage(message, 'el parámetro de búsqueda está vacío.', alias);
         return;
       }
 
       const results = await YouTube.yt().searchVideos(search, 10);
       if (!results.length) {
-        await sendMessage(message, `no hay resultados para ${search}`, params[0]);
+        await sendMessage(message, `no hay resultados para ${search}`, alias);
         return;
       }
 
@@ -87,7 +87,7 @@ export default class SearchCommand implements Command {
           YouTube.queues[msg.guild.id] = queue;
         } else {
           if (!queue.voiceChannel.members.has(msg.member.id)) {
-            await sendMessage(msg, 'no estás en el canal de voz.', params[0]);
+            await sendMessage(msg, 'no estás en el canal de voz.', alias);
             return;
           }
 
@@ -97,7 +97,7 @@ export default class SearchCommand implements Command {
         if (!queue.playing && !queue.playingDispatcher) {
           await YouTube.play(msg.guild.id);
         } else {
-          await sendMessage(message, `la canción **${YouTube.filterTitle(songData.title)}** de **${songData.channel.title}** ha sido agregada a la lista de reproducción.`, params[0]);
+          await sendMessage(message, `la canción **${YouTube.filterTitle(songData.title)}** de **${songData.channel.title}** ha sido agregada a la lista de reproducción.`, alias);
         }
 
         collector.stop();
@@ -122,9 +122,9 @@ export default class SearchCommand implements Command {
       if (error.errors && error.errors[0].reason === 'quotaExceeded') {
         const yt = YouTube.yt(true, true);
         if (yt == null) {
-          await sendMessage(message, 'el API excedió el límite de peticiones.', params[0]);
+          await sendMessage(message, 'el API excedió el límite de peticiones.', alias);
         } else {
-          await this.onCommand(message, bot, params);
+          await this.onCommand(message, bot, params, alias);
         }
 
         return;
