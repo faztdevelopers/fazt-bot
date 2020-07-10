@@ -2,7 +2,8 @@
 
 import { config } from 'dotenv';
 import { TextChannel, VoiceChannel, VoiceConnection, StreamDispatcher, MessageEmbed, DMChannel, NewsChannel, Message, MessageReaction, User, UserFlags, GuildChannel, GuildEmoji } from 'discord.js';
-import { getByName as settingName } from '../utils/settings';
+import Song from './song';
+import { getByName as settingName } from './settings';
 import YTDL from 'ytdl-core';
 import { bot } from '..';
 import { sendMessage } from '../commands/command';
@@ -17,44 +18,12 @@ export interface IQueue {
   playing: boolean;
   playingDispatcher: StreamDispatcher | null;
   stopped: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  songs: Array<any>;
+  songs: Array<Song>;
   skip?: number;
   hasVote: boolean;
 }
 
 export const queues: { [guildID: string]: IQueue } = {};
-
-export const filterTitle = (title: string): string => (
-  title
-    .replace(/&#39;/gi, '\'')
-    .replace(/&amp;/gi, '&')
-);
-
-export const timeToString = (time: number): string => {
-  let str = '';
-  let timeLeft: number = time;
-
-  const hours: number = Math.floor(timeLeft / (60 * 60));
-  if (hours > 0) {
-    str += `${`0${hours}`.substr(-2)}:`;
-    timeLeft -= hours;
-  }
-
-  const minutes: number = Math.floor(timeLeft / 60);
-  if (minutes > 0) {
-    str += `${`0${minutes}`.substr(-2)}:`;
-    timeLeft -= minutes;
-  } else {
-    str += '00:';
-  }
-
-  if (timeLeft < 0) {
-    timeLeft = 0;
-  }
-
-  return `${str}${`0${timeLeft}`.substr(-2)}`;
-};
 
 export const isMusicChannel = async (message: Message): Promise<[boolean, null | GuildChannel]> => {
   try {
@@ -97,30 +66,23 @@ export const play = async (guildID: string): Promise<boolean> => {
     return true;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const nextSong: any = queue.songs[0];
+  const nextSong: Song = queue.songs[0];
   if (!nextSong) {
     return false;
   }
 
   queue.playing = true;
 
-  const songURL = `https://www.youtube.com/watch?v=${nextSong.id}`;
-
   const message = await queue.textChannel.send(
     new MessageEmbed()
-      .setAuthor(
-        `Reproducción: ${filterTitle(nextSong.title)}`,
-        nextSong.thumbnails.default.url,
-        songURL,
-      )
+      .setAuthor(`Reproducción: ${nextSong.getTitle()} de ${nextSong.getAuthor()}`, nextSong.getThumbnail(), nextSong.getURL())
       .setColor('#f44336')
-      .setDescription(`${nextSong.description.substr(0, 200)}${nextSong.description.length > 200 ? '...' : ''}`)
-      .setFooter(nextSong.channel.title)
+      .setDescription(nextSong.getDescription())
+      .setFooter(`Agregada por ${nextSong.getUser()?.username}`)
       .setTimestamp(Date.now())
   );
 
-  const stream = YTDL(songURL, {
+  const stream = YTDL(nextSong.getURL(), {
     filter: 'audioonly',
   });
 
@@ -130,7 +92,7 @@ export const play = async (guildID: string): Promise<boolean> => {
     onStreamError = true;
     console.log('Stream Error', error);
 
-    message.edit(`${bot.emojis.cache.find((e) => e.name === 'x_')} Couldn't play ${filterTitle(nextSong.title)}`);
+    message.edit(`${bot.emojis.cache.find((e) => e.name === 'x_')} Couldn't play ${nextSong.getTitle()}`);
 
     if (queue.playingDispatcher) {
       queue.playingDispatcher.end();
