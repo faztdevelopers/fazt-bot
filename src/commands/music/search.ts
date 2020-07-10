@@ -29,14 +29,16 @@ export default class SearchCommand implements Command {
         return;
       }
 
-      if (!params[1] || !params[1].length) {
+      const search: string = params.slice(1).join(' ');
+
+      if (!search || !search.length) {
         await sendMessage(message, 'el parámetro de búsqueda está vacío.', params[0]);
         return;
       }
 
-      const results = await YouTube.yt().searchVideos(params[1], 10);
+      const results = await YouTube.yt().searchVideos(search, 10);
       if (!results.length) {
-        await sendMessage(message, `no hay resultados para ${params[1]}`, params[0]);
+        await sendMessage(message, `no hay resultados para ${search}`, params[0]);
         return;
       }
 
@@ -111,9 +113,9 @@ export default class SearchCommand implements Command {
 
       await message.channel.send(
         new MessageEmbed()
-          .setTitle(`Resultados de ${params[1]}`)
+          .setTitle(`Resultados de ${search}`)
           .setColor('#f44336')
-          .setDescription(`Usa **'${prefix}searchplay [número]'** para poner una canción de la búsqueda:\r\n${songs.join('\r\n')}`)
+          .setDescription(`Usa **'${prefix}searchplay [número]'** para poner una canción de la búsqueda:\r\n\r\n${songs.join('\r\n')}`)
           .setTimestamp(Date.now())
       );
     } catch (error) {

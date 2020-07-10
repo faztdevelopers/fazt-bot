@@ -58,7 +58,7 @@ export default class RemoveCommand implements Command {
         return;
       }
 
-      await YouTube.voteSystem(message, ['remove', params[0]], params[2].toLowerCase() === 'forced', {
+      await YouTube.voteSystem(message, ['remove', params[0]], (params[2] || '').toLowerCase() === 'forced', {
         song_index: (i - 1).toString(),
         song_name: YouTube.filterTitle(songData.title),
         song_author: songData.channel.title,

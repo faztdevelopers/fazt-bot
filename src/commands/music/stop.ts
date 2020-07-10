@@ -38,7 +38,7 @@ export default class StopCommand implements Command {
         return;
       }
 
-      await YouTube.voteSystem(message, ['stop', params[0]], params[1].toLowerCase() === 'forced');
+      await YouTube.voteSystem(message, ['stop', params[0]], (params[1] || '').toLowerCase() === 'forced');
     } catch (error) {
       console.error('Stop Command', error);
     }

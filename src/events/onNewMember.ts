@@ -23,9 +23,9 @@ const onNewMember = async (member: GuildMember | PartialGuildMember, bot: Client
     new WelcomeEmbed(
       member.guild.name,
       member.user.displayAvatarURL(),
-      member.user.toString(),
+      `<@${member.user.id}>`,
       member.user.username,
-      offTopicChannel.toString()
+      offTopicChannel.toString(),
     )
   );
 };
