@@ -5,10 +5,10 @@ import { Message, Client } from 'discord.js';
 import * as Settings from '../../utils/settings';
 
 export default class SetModeratorRole implements Command {
-  names: Array<string> = ['setdevrole', 'setmoderatorrole'];
+  names: Array<string> = ['setmodrole', 'setmoderatorrole', 'setmoderationrole'];
   arguments = '(rol)';
   group: CommandGroup = 'moderation';
-  description = 'Agrega un rol de desarrollador del bot.';
+  description = 'Agrega un rol de moderador del bot.';
 
   async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
     try {

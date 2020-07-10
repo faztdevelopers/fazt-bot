@@ -2,7 +2,6 @@
 
 import Command, { sendMessage, deleteMessage, CommandGroup } from '../command';
 import { Message, GuildChannel, TextChannel, Client } from 'discord.js';
-import { getByName } from '../../utils/settings';
 import * as Settings from '../../utils/settings';
 import votationEmbed from '../../embeds/votationEmbed';
 
@@ -23,7 +22,7 @@ export default class Votation implements Command {
         return;
       }
 
-      const channelID: string = (await getByName('votation_channel'))?.value || '';
+      const channelID: string = (await Settings.getByName('votation_channel'))?.value || '';
       if (!channelID.length) {
         return;
       }
