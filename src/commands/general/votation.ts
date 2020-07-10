@@ -5,7 +5,7 @@ import { Message, GuildChannel, TextChannel, Client } from 'discord.js';
 import { getByName } from '../../utils/settings';
 import votationEmbed from '../../embeds/votationEmbed';
 
-export default class Suggest implements Command {
+export default class Votation implements Command {
   names: Array<string> = ['votacion', 'votation', 'vote'];
   arguments = '(mensaje)';
   group: CommandGroup = 'general';
@@ -40,12 +40,11 @@ export default class Suggest implements Command {
 
       const url: string[] = [];
       
-      if(msg.match(urlInParams)){
-        url.push(msg.match(urlInParams)[0]);
-        msg = msg.replace(url[0], '');
-        console.log(msg);
-      } 
-        
+      const urlCheck = msg.match(urlInParams);
+      if (urlCheck) {
+        const urlIndex = url.push(urlCheck[0]);
+        msg = msg.replace(url[urlIndex - 1], '');
+      }
 
       const embedMessage = await (votationChannel as TextChannel).send(new votationEmbed(msg, message.author, url));
 
