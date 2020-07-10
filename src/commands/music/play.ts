@@ -28,8 +28,10 @@ export default class PlayCommand implements Command {
         return;
       }
 
+      const search: string = params.slice(1).join(' ');
+
       let queue = YouTube.queues[message.guild.id];
-      if (!params[1] || !params[1].length) {
+      if (!search || !search.length) {
         if (queue && queue.stopped && queue.songs.length) {
           if (!queue.voiceChannel.members.has(message.member.id)) {
             await sendMessage(message, 'no estás en el canal de voz.', params[0]);
@@ -45,9 +47,9 @@ export default class PlayCommand implements Command {
         return;
       }
 
-      const results = await YouTube.yt().searchVideos(params[1], 1);
+      const results = await YouTube.yt().searchVideos(search, 1);
       if (!results.length) {
-        await sendMessage(message, `no hay resultados para ${params[1]}`, params[0]);
+        await sendMessage(message, `no hay resultados para ${search}`, params[0]);
         return;
       }
 

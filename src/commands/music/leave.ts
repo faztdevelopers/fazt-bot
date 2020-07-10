@@ -38,7 +38,7 @@ export default class LeaveCommand implements Command {
         return;
       }
 
-      await YouTube.voteSystem(message, ['leave', params[0]], params[1].toLowerCase() === 'forced');
+      await YouTube.voteSystem(message, ['leave', params[0]], (params[1] || '').toLowerCase() === 'forced');
     } catch (error) {
       console.error('Leave Command', error);
     }

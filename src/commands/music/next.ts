@@ -43,7 +43,7 @@ export default class NextCommand implements Command {
         return;
       }
 
-      await YouTube.voteSystem(message, ['next', params[0]], params[1].toLowerCase() === 'forced');
+      await YouTube.voteSystem(message, ['next', params[0]], (params[1] || '').toLowerCase() === 'forced');
     } catch (error) {
       console.error('Next song command', error);
     }
