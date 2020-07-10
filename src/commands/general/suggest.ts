@@ -39,8 +39,8 @@ export default class Suggest implements Command {
 
       deleteMessage(await sendMessage(message, `Tu sugerencia se ha enviado a ${(suggestionChannel as TextChannel)}.`, params[0]));
 
-      await embedMessage.react(bot.emojis.cache.find((e) => e.name === 'check_2') || '');
-      await embedMessage.react(bot.emojis.cache.find((e) => e.name === 'x2') || '');
+      await embedMessage.react(bot.emojis.cache.find((e) => e.name === 'check_2') || '👍');
+      await embedMessage.react(bot.emojis.cache.find((e) => e.name === 'x2') || '👎');
     } catch (error) {
       console.error('Suggest error', error);
     }
