@@ -18,6 +18,7 @@
 # [How to contribute](https://github.com/faztcommunity/docs/blob/master/contribute.md)
 
 # Contributors
+* **Fluc**[GitHub](https://github.com/Fluc-UwU)
 * **Tati** [GitHub](https://github.com/tati1206)
 * **zd4y** [GitHub](https://github.com/zd4y)
 * **Daniel Solarte** [GitHub](https://github.com/danielsolartech)
