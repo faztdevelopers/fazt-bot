@@ -10,28 +10,32 @@ export default class SetMusicChannel implements Command {
   group: CommandGroup = 'developer';
   description = 'Agrega un canal de música.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
+  async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;
       }
 
       const devRole: string | null = (await Settings.getByName('developer_role'))?.value || null;
-      if (!message.member.hasPermission('ADMINISTRATOR') || (devRole && !message.member.roles.cache.has(devRole))) {
+      if (!devRole) {
+        return;
+      }
+
+      if (!message.member.hasPermission('ADMINISTRATOR') && !message.member.roles.cache.has(devRole)) {
         return;
       }
 
       await message.delete();
 
-      const channelID: string = (params[1] || '').replace('<#', '').replace('>', '');
+      const channelID: string = (params[0] || '').replace('<#', '').replace('>', '');
       if (!channelID || !channelID.length) {
-        await deleteMessage(await sendMessage(message, 'debes ingresar un canal.', params[0]));
+        await deleteMessage(await sendMessage(message, 'debes ingresar un canal.', alias));
         return;
       }
 
       const channel = message.guild.channels.cache.get(channelID);
       if (!channel) {
-        await deleteMessage(await sendMessage(message, 'el canal no es válido.', params[0]));
+        await deleteMessage(await sendMessage(message, 'el canal no es válido.', alias));
         return;
       }
 
@@ -41,7 +45,7 @@ export default class SetMusicChannel implements Command {
         await Settings.create('music_channel', channel.id);
       }
 
-      await deleteMessage(await sendMessage(message, `ahora ${channel} es el canal de música.`, params[0]));
+      await deleteMessage(await sendMessage(message, `ahora ${channel} es el canal de música.`, alias));
     } catch (error) {
       console.error('Set Music Channel', error);
     }

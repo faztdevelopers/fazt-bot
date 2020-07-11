@@ -21,7 +21,7 @@ interface Command {
   arguments?: string;
   group: CommandGroup;
   description: string;
-  onCommand: (msg: Message, client: Client, params: Array<string>) => Promise<void>;
+  onCommand: (msg: Message, client: Client, params: Array<string>, alias: string) => Promise<void>;
 }
 
 export default Command;

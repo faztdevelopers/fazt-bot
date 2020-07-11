@@ -4,15 +4,24 @@ import Command, { sendMessage, deleteMessage, CommandGroup } from '../command';
 import { Message, Client } from 'discord.js';
 import * as Settings from '../../utils/settings';
 
-export default class SetDeveloperRole implements Command {
-  names: Array<string> = ['setdevrole', 'setdeveloperrole'];
+export default class SetModeratorRole implements Command {
+  names: Array<string> = ['setmodrole', 'setmoderatorrole', 'setmoderationrole'];
   arguments = '(rol)';
   group: CommandGroup = 'developer';
-  description = 'Agrega un rol de desarrollador del bot.';
+  description = 'Agrega un rol de moderador del bot.';
 
   async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
     try {
-      if (!message.guild || !message.member || !message.member.permissions.has('ADMINISTRATOR')) {
+      if (!message.guild || !message.member) {
+        return;
+      }
+
+      const devRole: string | null = (await Settings.getByName('developer_role'))?.value || null;
+      if (!devRole) {
+        return;
+      }
+
+      if (!message.member.hasPermission('ADMINISTRATOR') && !message.member.roles.cache.has(devRole)) {
         return;
       }
 
@@ -30,15 +39,15 @@ export default class SetDeveloperRole implements Command {
         return;
       }
 
-      if (await Settings.hasByName('developer_role')) {
-        await Settings.update('developer_role', role.id);
+      if (await Settings.hasByName('moderator_role')) {
+        await Settings.update('moderator_role', role.id);
       } else {
-        await Settings.create('developer_role', role.id);
+        await Settings.create('moderator_role', role.id);
       }
 
-      await deleteMessage(await sendMessage(message, `ahora ${role} es el rol de desarrollador del bot.`, alias));
+      await deleteMessage(await sendMessage(message, `ahora ${role} es el rol de moderador del bot.`, alias));
     } catch (error) {
-      console.error('Set Developer Role Command', error);
+      console.error('Set Moderator Role Command', error);
     }
   }
 }

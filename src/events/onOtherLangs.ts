@@ -1,16 +1,17 @@
 // Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
 
-import { Message, MessageEmbed } from 'discord.js';
+import { Message } from 'discord.js';
 import axios from 'axios';
+import OnOthersLangsEmbed from '../embeds/onOthersLangsEmbed';
 
-const onOtherLangs = async (message: Message): Promise<void> => {
+const translate = async (message: string, lang: 'es' | 'en'): Promise<string> => {
   const texts: string[] | undefined = (await axios.get('https://translate.googleapis.com/translate_a/single', {
     params: {
       client: 'gtx',
       sl: 'auto',
-      tl: 'es',
+      tl: lang,
       dt: 't',
-      q: message.content,
+      q: message,
     }
   })).data[0];
 
@@ -24,11 +25,15 @@ const onOtherLangs = async (message: Message): Promise<void> => {
     msg = str.join('');
   }
 
-  if (!msg.length) {
-    return;
-  }
+  return msg;
+};
 
-  msg = msg.replace(/<@!\s/gi, '<@!').replace(/<#\s/gi, '<#').replace(/<@\s&\s/gi, '<@&');
+const replaceMessage = (message: string): string => {
+  message = message
+    .replace(/<@!\s/gi, '<@!')
+    .replace(/<#\s/gi, '<#')
+    .replace(/<@\s&\s/gi, '<@&')
+    .replace(/<@\s/gi, '<@');
 
   const emojiReplace = (msg: string, lastIndex: number): string => {
     let firstI = -1;
@@ -64,15 +69,25 @@ const onOtherLangs = async (message: Message): Promise<void> => {
     return msg;
   };
 
-  msg = emojiReplace(msg, 0);
+  return emojiReplace(message, 0);
+};
 
-  await message.channel.send(
-    new MessageEmbed()
-      .setDescription(msg)
-      .setColor('#009688')
-      .setFooter(message.author.username)
-      .setTimestamp(Date.now())
-  );
+const onOtherLangs = async (message: Message): Promise<void> => {
+  let msg = await translate(message.content, 'es');
+  if (!msg.length) {
+    return;
+  }
+
+  msg = replaceMessage(msg);
+  if (msg === message.content) {
+    msg = await translate(message.content, 'en');
+  }
+
+  if (!msg.length) {
+    return;
+  }
+
+  await message.channel.send(new OnOthersLangsEmbed(replaceMessage(msg), message.author.username));
 };
 
 export default onOtherLangs;

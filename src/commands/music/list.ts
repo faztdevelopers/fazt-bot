@@ -11,7 +11,7 @@ export default class ListCommand implements Command {
   group: CommandGroup = 'music';
   description = 'Mira la lista de reproducción actual.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
+  async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
     try {
       if (!message.guild) {
         return;
@@ -20,27 +20,27 @@ export default class ListCommand implements Command {
       const musicChannel = await YouTube.isMusicChannel(message);
       if (!musicChannel[0]) {
         await message.delete();
-        await deleteMessage(await sendMessage(message, `solo puedes usar comandos de música en ${musicChannel[1]}`, params[0]));
+        await deleteMessage(await sendMessage(message, `solo puedes usar comandos de música en ${musicChannel[1]}`, alias));
         return;
       }
 
       const queue = YouTube.queues[message.guild.id];
       if (!queue) {
-        await sendMessage(message, 'no estoy reproduciendo música.', params[0]);
+        await sendMessage(message, 'no estoy reproduciendo música.', alias);
         return;
       }
 
       if (!queue.songs.length) {
-        await sendMessage(message, 'no hay canciones en la lista de reproducción.', params[0]);
+        await sendMessage(message, 'no hay canciones en la lista de reproducción.', alias);
         return;
       }
 
-      const page = Number(params[1] || 1);
+      const page = Number(params[0] || 1);
 
       await message.channel.send(new ListSongEmbed(bot, queue, page));
     } catch (error) {
       if (error instanceof InvalidPageNumberError) {
-        await sendMessage(message, 'la página no es válida', params[0]);
+        await sendMessage(message, 'la página no es válida', alias);
       } else {
         console.error('Queue Command', error);
       }

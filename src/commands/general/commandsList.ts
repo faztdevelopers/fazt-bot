@@ -12,25 +12,25 @@ export default class CommandsList implements Command {
   group: CommandGroup = 'general';
   description = 'Mira la lista de comandos.';
 
-  async onCommand(message: Message, client: Client, params: Array<string>): Promise<void> {
+  async onCommand(message: Message, client: Client, params: Array<string>, alias: string): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;
       }
 
       let group: CommandGroup | null = null;
-      if (params[1] === 'música' || params[1] === 'music') {
+      if (params[0] === 'música' || params[0] === 'music') {
         group = 'music';
-      } else if (params[1] === 'general') {
+      } else if (params[0] === 'general') {
         group = 'general';
-      } else if (params[1] === 'developer' || params[1] === 'desarrollo' || params[1] === 'dev') {
+      } else if (params[0] === 'developer' || params[0] === 'desarrollo' || params[0] === 'dev') {
         const devRole: string | null = (await getByName('developer_role'))?.value || null;
         if (!message.member.hasPermission('ADMINISTRATOR') || (devRole && !message.member.roles.cache.has(devRole))) {
           return;
         }
 
         group = 'developer';
-      } else if (params[1] === 'moderation' || params[1] === 'moderación' || params[1] === 'mod') {
+      } else if (params[0] === 'moderation' || params[0] === 'moderación' || params[0] === 'mod') {
         const devRole: string | null = (await getByName('moderation_role'))?.value || null;
         if (!message.member.hasPermission('ADMINISTRATOR') || (devRole && !message.member.roles.cache.has(devRole))) {
           return;

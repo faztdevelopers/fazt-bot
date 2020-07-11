@@ -10,7 +10,7 @@ export default class SetDJRole implements Command {
   group: CommandGroup = 'developer';
   description = 'Agrega un rol de DJ del bot.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
+  async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;
@@ -23,15 +23,15 @@ export default class SetDJRole implements Command {
 
       await message.delete();
 
-      const roleID: string = (params[1] || '').replace('<@&', '').replace('>', '');
+      const roleID: string = (params[0] || '').replace('<@&', '').replace('>', '');
       if (!roleID || !roleID.length) {
-        await deleteMessage(await sendMessage(message, 'debes ingresar un rol.', params[0]));
+        await deleteMessage(await sendMessage(message, 'debes ingresar un rol.', alias));
         return;
       }
 
       const role = message.guild.roles.cache.get(roleID);
       if (!role) {
-        await deleteMessage(await sendMessage(message, 'el rol no existe.', params[0]));
+        await deleteMessage(await sendMessage(message, 'el rol no existe.', alias));
         return;
       }
 
@@ -41,7 +41,7 @@ export default class SetDJRole implements Command {
         await Settings.create('dj_role', role.id);
       }
 
-      await deleteMessage(await sendMessage(message, `ahora ${role} es el rol de DJ del bot.`, params[0]));
+      await deleteMessage(await sendMessage(message, `ahora ${role} es el rol de DJ del bot.`, alias));
     } catch (error) {
       console.error('Set DJ Role Command', error);
     }

@@ -4,11 +4,11 @@ import Command, { deleteMessage, sendMessage, CommandGroup } from '../command';
 import { Message, Client } from 'discord.js';
 import * as Settings from '../../utils/settings';
 
-export default class SetWelcomesChannel implements Command {
-  names: Array<string> = ['setwelcomeschannel'];
+export default class implements Command {
+  names: Array<string> = ['setvotationschannel'];
   arguments = '(canal)';
   group: CommandGroup = 'developer';
-  description = 'Agrega un canal para los mensajes de bienvenida.';
+  description = 'Agrega un canal de votaciones.';
 
   async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
     try {
@@ -39,15 +39,16 @@ export default class SetWelcomesChannel implements Command {
         return;
       }
 
-      if (await Settings.hasByName('welcomes_channel')) {
-        await Settings.update('welcomes_channel', channel.id);
+      if (await Settings.hasByName('votation_channel')) {
+        await Settings.update('votation_channel', channel.id);
       } else {
-        await Settings.create('welcomes_channel', channel.id);
+        await Settings.create('votation_channel', channel.id);
       }
 
-      await deleteMessage(await sendMessage(message, `ahora ${channel} es el canal de bienvenidas.`, alias));
+      await deleteMessage(await sendMessage(message, `ahora ${channel} es el canal de las votaciones.`, alias));
     } catch (error) {
-      console.error('Set Welcomes Channel', error);
+      console.error('Set votations Channel', error);
     }
   }
+
 }

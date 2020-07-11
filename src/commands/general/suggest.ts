@@ -11,7 +11,7 @@ export default class Suggest implements Command {
   group: CommandGroup = 'general';
   description = 'Realiza una nueva sugerencia para el servidor.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
+  async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
     try {
       if (!message.guild) {
         return;
@@ -29,18 +29,18 @@ export default class Suggest implements Command {
 
       await message.delete();
 
-      const msg: string = params.slice(1).join(' ');
+      const msg: string = params.join(' ');
       if (!msg) {
-        await deleteMessage(await sendMessage(message, 'la sugerencia está vacía.', params[0]));
+        await deleteMessage(await sendMessage(message, 'la sugerencia está vacía.', alias));
         return;
       }
 
       const embedMessage = await (suggestionChannel as TextChannel).send(new SuggestionEmbed(msg, message.author));
 
-      deleteMessage(await sendMessage(message, `Tu sugerencia se ha enviado a ${(suggestionChannel as TextChannel)}.`, params[0]));
+      deleteMessage(await sendMessage(message, `Tu sugerencia se ha enviado a ${(suggestionChannel as TextChannel)}.`, alias));
 
-      await embedMessage.react(bot.emojis.cache.find((e) => e.name === 'check_2') || '');
-      await embedMessage.react(bot.emojis.cache.find((e) => e.name === 'x2') || '');
+      await embedMessage.react(bot.emojis.cache.find((e) => e.name === 'check_2') || '👍');
+      await embedMessage.react(bot.emojis.cache.find((e) => e.name === 'x2') || '👎');
     } catch (error) {
       console.error('Suggest error', error);
     }

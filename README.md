@@ -2,7 +2,7 @@
 
 # TO-DO
 - [x] Suggestions
-- [ ] Votes
+- [x] Votes
 - [ ] Roles with reactions
 - [ ] Verification system
 - [x] Music commands
@@ -21,5 +21,7 @@
 * **Tati** [GitHub](https://github.com/tati1206)
 * **zd4y** [GitHub](https://github.com/zd4y)
 * **Daniel Solarte** [GitHub](https://github.com/danielsolartech)
+* **YesnielX** [GitHub](https://github.com/YesnielX)
+* **Fluc**[GitHub](https://github.com/Fluc-UwU)
 
 # [LICENSE](./LICENSE)

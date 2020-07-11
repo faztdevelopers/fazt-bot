@@ -9,7 +9,7 @@ export default class Ping implements Command {
   group: CommandGroup = 'general';
   description = 'Ping pong...';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
+  async onCommand(message: Message, bot: Client, params: Array<string>, alia: string): Promise<void> {
     await message.channel.send(`Pong! 🚀 (${moment(message.createdTimestamp).diff(moment(Date.now()), 'millisecond')}ms)`);
   }
 }
