@@ -10,21 +10,21 @@ export default class Ascii implements Command {
   group: CommandGroup = 'general';
   description = 'Coloca un mensaje en código ASCII.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
+  async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
     try {
       if (!message.guild) {
         return;
       }
 
-      const msg: string = params.slice(1).join(' ');
+      const msg: string = params.join(' ');
       if (!msg) {
-        await deleteMessage(await sendMessage(message, 'debes colocar un mensaje.', params[0]));
+        await deleteMessage(await sendMessage(message, 'debes colocar un mensaje.', alias));
         return;
       }
 
       const text = figlet.textSync(msg);
 
-      await sendMessage(message, '```' + text + '```', params[0]);
+      await sendMessage(message, '```' + text + '```', alias);
     } catch (error) {
       console.error('Ascii error', error);
     }

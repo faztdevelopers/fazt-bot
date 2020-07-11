@@ -10,7 +10,7 @@ export default class SetModeratorRole implements Command {
   group: CommandGroup = 'developer';
   description = 'Agrega un rol de moderador del bot.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>): Promise<void> {
+  async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
     try {
       if (!message.guild || !message.member || !message.member.permissions.has('ADMINISTRATOR')) {
         return;
@@ -18,15 +18,15 @@ export default class SetModeratorRole implements Command {
 
       await message.delete();
 
-      const roleID: string = (params[1] || '').replace('<@&', '').replace('>', '');
+      const roleID: string = (params[0] || '').replace('<@&', '').replace('>', '');
       if (!roleID || !roleID.length) {
-        await deleteMessage(await sendMessage(message, 'debes ingresar un rol.', params[0]));
+        await deleteMessage(await sendMessage(message, 'debes ingresar un rol.', alias));
         return;
       }
 
       const role = message.guild.roles.cache.get(roleID);
       if (!role) {
-        await deleteMessage(await sendMessage(message, 'el rol no existe.', params[0]));
+        await deleteMessage(await sendMessage(message, 'el rol no existe.', alias));
         return;
       }
 
@@ -36,7 +36,7 @@ export default class SetModeratorRole implements Command {
         await Settings.create('moderator_role', role.id);
       }
 
-      await deleteMessage(await sendMessage(message, `ahora ${role} es el rol de moderador del bot.`, params[0]));
+      await deleteMessage(await sendMessage(message, `ahora ${role} es el rol de moderador del bot.`, alias));
     } catch (error) {
       console.error('Set Moderator Role Command', error);
     }
