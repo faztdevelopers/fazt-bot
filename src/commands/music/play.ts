@@ -3,6 +3,7 @@
 import Command, { sendMessage, deleteMessage, CommandGroup } from '../command';
 import { Message, Client } from 'discord.js';
 import * as YouTube from '../../utils/music';
+import Song from '../../utils/song';
 
 export default class PlayCommand implements Command {
   names: Array<string> = ['play', 'reproducir', 'p'];
@@ -47,11 +48,36 @@ export default class PlayCommand implements Command {
         return;
       }
 
-      const results = await YouTube.yt().searchVideos(search, 1);
-      if (!results.length) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let results: any[] = [];
+
+      if (search.startsWith('http')) {
+        results = [await YouTube.yt().getVideo(search)];
+      } else {
+        results = await YouTube.yt().searchVideos(search, 1);
+      }
+
+      const songData = results[0];
+      if (!results.length || !songData) {
         await sendMessage(message, `no hay resultados para ${search}`, params[0]);
         return;
       }
+
+      await songData.fetch();
+      if (songData.durationSeconds > 600) {
+        await sendMessage(message, 'la duración del vídeo debe ser menor a 10 minutos.', params[0]);
+        return;
+      }
+
+      const song = new Song(
+        songData.id,
+        songData.title,
+        songData.thumbnails.default.url,
+        songData.description,
+        songData.channel.title,
+        songData.durationSeconds,
+        message.author.id,
+      );
 
       if (!queue) {
         const connection = await message.member.voice.channel.join();
@@ -63,7 +89,7 @@ export default class PlayCommand implements Command {
           playing: false,
           playingDispatcher: null,
           stopped: false,
-          songs: [results[0]],
+          songs: [song],
           hasVote: false,
         };
 
@@ -74,7 +100,7 @@ export default class PlayCommand implements Command {
           return;
         }
 
-        queue.songs.push(results[0]);
+        queue.songs.push(song);
       }
 
       if (queue.stopped) {
@@ -84,7 +110,7 @@ export default class PlayCommand implements Command {
       if (!queue.playing && !queue.playingDispatcher) {
         await YouTube.play(message.guild.id);
       } else {
-        await sendMessage(message, `la canción **${YouTube.filterTitle(results[0].title)}** de **${results[0].channel.title}** ha sido agregada a la lista de reproducción.`, params[0]);
+        await sendMessage(message, `la canción **${song.getTitle()}** de **${song.getAuthor()}** ha sido agregada a la lista de reproducción.`, params[0]);
       }
     } catch (error) {
       if (error.errors && error.errors[0].reason === 'quotaExceeded') {
