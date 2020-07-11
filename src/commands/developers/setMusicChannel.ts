@@ -17,7 +17,11 @@ export default class SetMusicChannel implements Command {
       }
 
       const devRole: string | null = (await Settings.getByName('developer_role'))?.value || null;
-      if (!message.member.hasPermission('ADMINISTRATOR') || (devRole && !message.member.roles.cache.has(devRole))) {
+      if (!devRole) {
+        return;
+      }
+
+      if (!message.member.hasPermission('ADMINISTRATOR') && !message.member.roles.cache.has(devRole)) {
         return;
       }
 

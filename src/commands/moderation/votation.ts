@@ -18,7 +18,11 @@ export default class Votation implements Command {
       }
 
       const moderatorRole: string | null = (await Settings.getByName('moderator_role'))?.value || null;
-      if (!message.member.hasPermission('ADMINISTRATOR') || (moderatorRole && !message.member.roles.cache.has(moderatorRole))) {
+      if (!moderatorRole) {
+        return;
+      }
+
+      if (!message.member.hasPermission('ADMINISTRATOR') && !message.member.roles.cache.has(moderatorRole)) {
         return;
       }
 
