@@ -51,17 +51,16 @@ export default class RemoveCommand implements Command {
         return;
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const songData: any = queue.songs[i - 1];
-      if (!songData) {
+      const song = queue.songs[i - 1];
+      if (!song) {
         await sendMessage(message, `la canción **#${i}** no existe en la lista de reproducción`, alias);
         return;
       }
 
       await YouTube.voteSystem(message, ['remove', alias], (params[1] || '').toLowerCase() === 'forced', {
         song_index: (i - 1).toString(),
-        song_name: YouTube.filterTitle(songData.title),
-        song_author: songData.channel.title,
+        song_name: song.getTitle(),
+        song_author: song.getAuthor(),
       });
     } catch (error) {
       console.error('Remove Command', error);

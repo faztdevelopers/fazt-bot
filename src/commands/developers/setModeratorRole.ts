@@ -7,7 +7,7 @@ import * as Settings from '../../utils/settings';
 export default class SetModeratorRole implements Command {
   names: Array<string> = ['setmodrole', 'setmoderatorrole', 'setmoderationrole'];
   arguments = '(rol)';
-  group: CommandGroup = 'moderation';
+  group: CommandGroup = 'developer';
   description = 'Agrega un rol de moderador del bot.';
 
   async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {

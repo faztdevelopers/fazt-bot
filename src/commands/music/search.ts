@@ -3,6 +3,7 @@
 import Command, { sendMessage, deleteMessage, CommandGroup } from '../command';
 import { Message, MessageEmbed, Client } from 'discord.js';
 import * as YouTube from '../../utils/music';
+import Song, { filterTitle } from '../../utils/song';
 import { prefix } from '../..';
 
 export default class SearchCommand implements Command {
@@ -56,18 +57,32 @@ export default class SearchCommand implements Command {
           return;
         }
 
-        const song: string = msg.content.toLowerCase().split(' ')[1];
-        if (!song) {
+        const songIndex: string = msg.content.toLowerCase().split(' ')[1];
+        if (!songIndex) {
           return;
         }
 
-        const i = Number(song);
+        const i = Number(songIndex);
         if (isNaN(i) || i <= 0 || i > 10) {
           return;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const songData: any = results[i - 1];
+        const songData = results[i - 1];
+        await songData.fetch();
+        if (songData.durationSeconds > 600) {
+          await sendMessage(message, 'la duración del vídeo debe ser menor a 10 minutos.', params[0]);
+          return;
+        }
+
+        const song = new Song(
+          songData.id,
+          songData.title,
+          songData.thumbnails.default.url,
+          songData.description,
+          songData.channel.title,
+          songData.durationSeconds,
+          message.author.id,
+        );
 
         let queue = YouTube.queues[msg.guild.id];
         if (!queue) {
@@ -80,7 +95,7 @@ export default class SearchCommand implements Command {
             playing: false,
             playingDispatcher: null,
             stopped: false,
-            songs: [songData],
+            songs: [song],
             hasVote: false,
           };
 
@@ -91,13 +106,13 @@ export default class SearchCommand implements Command {
             return;
           }
 
-          queue.songs.push(songData);
+          queue.songs.push(song);
         }
 
         if (!queue.playing && !queue.playingDispatcher) {
           await YouTube.play(msg.guild.id);
         } else {
-          await sendMessage(message, `la canción **${YouTube.filterTitle(songData.title)}** de **${songData.channel.title}** ha sido agregada a la lista de reproducción.`, alias);
+          await sendMessage(message, `la canción **${song.getTitle()}** de **${song.getAuthor()}** ha sido agregada a la lista de reproducción.`, alias);
         }
 
         collector.stop();
@@ -107,7 +122,7 @@ export default class SearchCommand implements Command {
 
       let i = 0;
       for await (const result of results) {
-        songs.push(`${i + 1}. **${YouTube.filterTitle(result.title)}** de **${result.channel.title}**`);
+        songs.push(`${i + 1}. **${filterTitle(result.title)}** de **${result.channel.title}**`);
         i++;
       }
 
