@@ -10,7 +10,7 @@ export default class SetModeratorRole implements Command {
   group: CommandGroup = 'developer';
   description = 'Agrega un rol de moderador del bot.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
+  async onCommand(message: Message, bot: Client, alias: string, params: Array<string>): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;

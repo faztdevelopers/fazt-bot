@@ -11,7 +11,7 @@ export default class RemoveCommand implements Command {
   group: CommandGroup = 'music';
   description = 'Elimina una canción de la lista de reproducción. (Si hay más de 2 oyentes se hará votación)';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
+  async onCommand(message: Message, bot: Client, alias: string, params: Array<string>): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;
@@ -40,7 +40,7 @@ export default class RemoveCommand implements Command {
         return;
       }
 
-      const i = Number(params[1]);
+      const i = Number(params[0]);
       if (isNaN(i) || i <= 0) {
         await sendMessage(message, 'el número no es válido.', alias);
         return;

@@ -6,7 +6,9 @@ export default class extends MessageEmbed {
   constructor(author: string, avatar: string) {
     super();
     this.color = 0xFF0022;
-    this.title = `Hey ${author}, este es tu avatar`;
-    this.image = {url: avatar};
+    this.title = 'Avatar';
+    this.description = `Hey ${author}, este es tu avatar`;
+    this.image = { url: avatar };
+    this.timestamp = Date.now();
   }
 }

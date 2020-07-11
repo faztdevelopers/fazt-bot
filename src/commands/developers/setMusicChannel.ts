@@ -10,7 +10,7 @@ export default class SetMusicChannel implements Command {
   group: CommandGroup = 'developer';
   description = 'Agrega un canal de música.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
+  async onCommand(message: Message, bot: Client, alias: string, params: Array<string>): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;

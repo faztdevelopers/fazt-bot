@@ -22,7 +22,7 @@ export default class NPM implements Command {
   group: CommandGroup = 'general';
   description = 'Obtén la información de un package de NPM.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
+  async onCommand(message: Message, bot: Client, alias: string, params: Array<string>): Promise<void> {
     try {
       if (!params[0]) {
         await sendMessage(message, 'debes ingresar el nombre de un package.', alias);

@@ -11,7 +11,7 @@ export default class PlayCommand implements Command {
   group: CommandGroup = 'music';
   description = 'Reproduce una canción por su nombre.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
+  async onCommand(message: Message, bot: Client, alias: string, params: Array<string>): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;
@@ -65,7 +65,7 @@ export default class PlayCommand implements Command {
 
       await songData.fetch();
       if (songData.durationSeconds > 600) {
-        await sendMessage(message, 'la duración del vídeo debe ser menor a 10 minutos.', params[0]);
+        await sendMessage(message, 'la duración del vídeo debe ser menor a 10 minutos.', alias);
         return;
       }
 
@@ -118,7 +118,7 @@ export default class PlayCommand implements Command {
         if (yt == null) {
           await sendMessage(message, 'el API excedió el límite de peticiones.', alias);
         } else {
-          await this.onCommand(message, bot, params, alias);
+          await this.onCommand(message, bot, alias, params);
         }
 
         return;
