@@ -1,8 +1,7 @@
 // Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
 
-import Command, { sendMessage, deleteMessage, CommandGroup } from '../command';
-import { Message, GuildChannel, TextChannel, Client } from 'discord.js';
-import { getByName } from '../../utils/settings';
+import Command, { CommandGroup } from '../command';
+import { Message, Client } from 'discord.js';
 import AvatarEmbed from '../../embeds/avatarEmbed';
 
 export default class Avatar implements Command {
@@ -11,22 +10,21 @@ export default class Avatar implements Command {
   group: CommandGroup = 'general';
   description = 'Muestra tu avatar.';
 
-  async onCommand(message: Message): Promise<void> {
+  async onCommand(message: Message, bot: Client, alias: string, params: Array<string>): Promise<void> {
     try {
-      if (!message.guild) {        
+      if (!message.guild) {
         return;
       }
 
-      await message.delete();
-
-      const author: string = message.author.username;
-      const avatar: string = await message.author.displayAvatarURL(); 
-
-      await message.channel.send(new AvatarEmbed(author, avatar));
-
+      await message.channel.send(
+        new AvatarEmbed(
+          message.author.username,
+          message.author.displayAvatarURL(),
+        )
+      );
     } catch (error) {
       console.error('Avatar error', error);
     }
   }
 }
- 
+

@@ -11,7 +11,7 @@ export default class Suggest implements Command {
   group: CommandGroup = 'general';
   description = 'Realiza una nueva sugerencia para el servidor.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
+  async onCommand(message: Message, bot: Client, alias: string, params: Array<string>): Promise<void> {
     try {
       if (!message.guild) {
         return;

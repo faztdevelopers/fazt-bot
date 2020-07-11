@@ -12,7 +12,7 @@ export default class CommandsList implements Command {
   group: CommandGroup = 'general';
   description = 'Mira la lista de comandos.';
 
-  async onCommand(message: Message, client: Client, params: Array<string>, alias: string): Promise<void> {
+  async onCommand(message: Message, client: Client, alias: string, params: Array<string>): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;
