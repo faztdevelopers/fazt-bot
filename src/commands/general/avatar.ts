@@ -22,7 +22,7 @@ export default class Avatar implements Command {
       const author: string = message.author.username;
       const avatar: string = await message.author.displayAvatarURL(); 
 
-      const embedMessage = await message.channel.send(new AvatarEmbed(author, avatar));
+      await message.channel.send(new AvatarEmbed(author, avatar));
 
     } catch (error) {
       console.error('Avatar error', error);
