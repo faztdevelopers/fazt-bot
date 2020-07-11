@@ -9,5 +9,4 @@ export default class extends MessageEmbed {
     this.title = `Hey ${author}, este es tu avatar`;
     this.image = {url: avatar};
   }
-
 }
