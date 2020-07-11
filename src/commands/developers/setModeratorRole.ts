@@ -12,7 +12,16 @@ export default class SetModeratorRole implements Command {
 
   async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
     try {
-      if (!message.guild || !message.member || !message.member.permissions.has('ADMINISTRATOR')) {
+      if (!message.guild || !message.member) {
+        return;
+      }
+
+      const devRole: string | null = (await Settings.getByName('developer_role'))?.value || null;
+      if (!devRole) {
+        return;
+      }
+
+      if (!message.member.hasPermission('ADMINISTRATOR') && !message.member.roles.cache.has(devRole)) {
         return;
       }
 

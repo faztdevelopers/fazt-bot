@@ -83,7 +83,11 @@ const onOtherLangs = async (message: Message): Promise<void> => {
     msg = await translate(message.content, 'en');
   }
 
-  await message.channel.send(new OnOthersLangsEmbed(msg, message.author.username));
+  if (!msg.length) {
+    return;
+  }
+
+  await message.channel.send(new OnOthersLangsEmbed(replaceMessage(msg), message.author.username));
 };
 
 export default onOtherLangs;
