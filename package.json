@@ -1,13 +1,15 @@
 {
   "name": "fazt-bot",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Fazt for Discord Fazt Tech community",
   "main": "./dist/index.js",
   "scripts": {
     "build": "tsc",
     "dev": "ts-node-dev --respawn --transpileOnly ./src/index.ts",
-    "start": "node ./dist/index.js",
     "lint": "eslint src/**/*",
+    "precommit": "npm run lint",
+    "prepush": "npm run build",
+    "start": "node ./dist/index.js",
     "test": "  "
   },
   "repository": {
@@ -18,7 +20,7 @@
     "node": "12.x"
   },
   "author": "Fazt Community",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/faztdevelopers/fazt-bot/issues"
   },
@@ -27,7 +29,6 @@
     "@discordjs/opus": "^0.3.2",
     "axios": "^0.19.2",
     "discord.js": "^12.2.0",
-    "dotenv": "^8.2.0",
     "figlet": "^1.4.0",
     "moment": "^2.27.0",
     "mongoose": "^5.9.22",
@@ -42,7 +43,11 @@
     "@types/ws": "^7.2.6",
     "@typescript-eslint/eslint-plugin": "^3.6.0",
     "@typescript-eslint/parser": "^3.6.0",
+    "dotenv": "^8.2.0",
     "eslint": "^7.4.0",
+    "eslint-config-prettier": "^6.11.0",
+    "husky": "^4.2.5",
+    "prettier": "^2.0.5",
     "ts-node-dev": "^1.0.0-pre.50",
     "typescript": "^3.9.6"
   }
