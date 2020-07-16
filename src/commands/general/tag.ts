@@ -7,7 +7,7 @@ import * as Tags from '../../utils/tags';
 export default class Tag implements Command {
   names: Array<string> = ['tag', 't'];
   group: CommandGroup = 'general';
-  description = 'Tags';
+  description = 'Responde con el contenido del tag si existe';
 
   async onCommand(
     message: Message,

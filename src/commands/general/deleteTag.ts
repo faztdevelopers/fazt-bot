@@ -7,7 +7,7 @@ import * as Tags from '../../utils/tags';
 export default class DeleteTag implements Command {
   names: Array<string> = ['deletetag'];
   group: CommandGroup = 'general';
-  description = 'Deletes a tag by its title';
+  description = 'Elimina un tag por su titulo';
 
   async onCommand(
     message: Message,
@@ -15,6 +15,19 @@ export default class DeleteTag implements Command {
     alias: string,
     params: Array<string>
   ): Promise<void> {
+    if (!message.guild || !message.member) return;
+
+    const contributorsRole = message.guild.roles.cache.find(
+      (role) => role.name === 'Contributors'
+    );
+
+    if (!contributorsRole) return;
+
+    if (!(message.member.roles.highest.position >= contributorsRole.position)) {
+      await message.channel.send('No tienes permiso para usar este comando.');
+      return;
+    }
+
     const title: string = params[0];
 
     if (!title) {

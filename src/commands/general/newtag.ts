@@ -7,7 +7,7 @@ import * as Tags from '../../utils/tags';
 export default class NewTag implements Command {
   names: Array<string> = ['newtag'];
   group: CommandGroup = 'general';
-  description = 'Create a new tag';
+  description = 'Crea un nuevo tag';
 
   async onCommand(
     message: Message,
@@ -15,6 +15,19 @@ export default class NewTag implements Command {
     alias: string,
     params: Array<string>
   ): Promise<void> {
+    if (!message.guild || !message.member) return;
+
+    const contributorsRole = message.guild.roles.cache.find(
+      (role) => role.name === 'Contributors'
+    );
+
+    if (!contributorsRole) return;
+
+    if (!(message.member.roles.highest.position >= contributorsRole.position)) {
+      await message.channel.send('No tienes permiso para usar este comando.');
+      return;
+    }
+
     const title: string = params[0];
     const content: string = params.slice(1).join(' ');
 
