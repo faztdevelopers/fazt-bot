@@ -6,6 +6,7 @@ import * as Tags from '../../utils/tags';
 
 export default class Tag implements Command {
   names: Array<string> = ['tag', 't'];
+  arguments = '(titulo)';
   group: CommandGroup = 'general';
   description = 'Responde con el contenido del tag si existe';
 

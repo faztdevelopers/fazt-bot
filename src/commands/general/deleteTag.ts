@@ -6,6 +6,7 @@ import * as Tags from '../../utils/tags';
 
 export default class DeleteTag implements Command {
   names: Array<string> = ['deletetag'];
+  arguments = '(titulo)';
   group: CommandGroup = 'general';
   description = 'Elimina un tag por su titulo';
 
@@ -15,15 +16,19 @@ export default class DeleteTag implements Command {
     alias: string,
     params: Array<string>
   ): Promise<void> {
-    if (!message.guild || !message.member) return;
+    if (!message.guild || !message.member) {
+      return;
+    }
 
     const contributorsRole = message.guild.roles.cache.find(
       (role) => role.name === 'Contributors'
     );
 
-    if (!contributorsRole) return;
+    if (!contributorsRole) {
+      return;
+    }
 
-    if (!(message.member.roles.highest.position >= contributorsRole.position)) {
+    if (message.member.roles.highest.position < contributorsRole.position) {
       await message.channel.send('No tienes permiso para usar este comando.');
       return;
     }
