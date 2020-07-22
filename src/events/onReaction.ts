@@ -1,15 +1,20 @@
 // Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
 
-import { getByName } from '../utils/settings';
 import { MessageReaction, User, PartialUser, Client, GuildEmoji } from 'discord.js';
-import UpdateRolesMessage from '../commands/developers/updateRolesMessage';
+import { getByName } from '../utils/settings';
+import { ReactionPart, getReactions } from '../utils/reactions';
 
-const onReaction = async (type: 'add' | 'remove', reaction: MessageReaction, user: User | PartialUser, bot: Client): Promise<void> => {  
+export default async function onReaction(
+  type: 'add' | 'remove',
+  reaction: MessageReaction,
+  user: User | PartialUser,
+  bot: Client
+): Promise<void> {  
   if (!reaction.message.guild || user.bot) {
     return;
   }
 
-  const currentReactions = await UpdateRolesMessage.getReactions(bot, reaction.message.guild);
+  const currentReactions: Array<ReactionPart> = await getReactions(bot, reaction.message.guild);
   if (!currentReactions.length) {
     return;
   }
@@ -55,5 +60,3 @@ const onReaction = async (type: 'add' | 'remove', reaction: MessageReaction, use
     }
   }
 };
-
-export default onReaction;
