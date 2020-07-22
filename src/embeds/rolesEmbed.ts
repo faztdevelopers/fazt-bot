@@ -1,7 +1,7 @@
 // Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
 
 import { MessageEmbed } from 'discord.js';
-import { ReactionPart } from '../commands/developers/updateRolesMessage';
+import { ReactionPart } from '../utils/reactions';
 
 export default class RolesEmbed extends MessageEmbed {
   constructor(reactions: Array<ReactionPart>) {
