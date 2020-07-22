@@ -1,14 +1,5 @@
 # Fazt Bot
 
-# TO-DO
-- [x] Suggestions
-- [x] Votes
-- [ ] Roles with reactions
-- [ ] Verification system
-- [x] Music commands
-- [ ] Warnings
-- [ ] Mutes, kicks and bans
-
 # Pre-requisites
 * [Node.JS](https://nodejs.org/en/) - v12 or newer
 * [MongoDB](https://www.mongodb.com/)
@@ -24,4 +15,4 @@
 * **YesnielX** [GitHub](https://github.com/YesnielX)
 * **Fluc**[GitHub](https://github.com/Fluc-UwU)
 
-# [LICENSE](./LICENSE)
+# [License](./LICENSE)

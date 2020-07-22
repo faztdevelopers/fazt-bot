@@ -29,6 +29,7 @@
     "@discordjs/opus": "^0.3.2",
     "axios": "^0.19.2",
     "discord.js": "^12.2.0",
+    "emoji-regex": "^9.0.0",
     "figlet": "^1.4.0",
     "moment": "^2.27.0",
     "mongoose": "^5.9.22",

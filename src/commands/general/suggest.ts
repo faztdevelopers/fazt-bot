@@ -23,7 +23,7 @@ export default class Suggest implements Command {
       }
 
       const suggestionChannel: GuildChannel | undefined = message.guild.channels.cache.get(channelID);
-      if (!suggestionChannel || !((o: GuildChannel): o is TextChannel => o.type === 'text')) {
+      if (!suggestionChannel || !(((o: GuildChannel): o is TextChannel => o.type === 'text')(suggestionChannel))) {
         return;
       }
 
@@ -35,9 +35,9 @@ export default class Suggest implements Command {
         return;
       }
 
-      const embedMessage = await (suggestionChannel as TextChannel).send(new SuggestionEmbed(msg, message.author));
+      const embedMessage = await suggestionChannel.send(new SuggestionEmbed(msg, message.author));
 
-      deleteMessage(await sendMessage(message, `Tu sugerencia se ha enviado a ${(suggestionChannel as TextChannel)}.`, alias));
+      deleteMessage(await sendMessage(message, `Tu sugerencia se ha enviado a ${suggestionChannel.toString()}.`, alias));
 
       await embedMessage.react(bot.emojis.cache.find((e) => e.name === 'check_2') || '👍');
       await embedMessage.react(bot.emojis.cache.find((e) => e.name === 'x2') || '👎');

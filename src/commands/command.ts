@@ -14,7 +14,7 @@ export const deleteMessage = async (message: Message | null, timeout = 5000): Pr
   await message.delete({ timeout });
 };
 
-export type CommandGroup = 'developer' | 'general' | 'moderation' | 'music';
+export type CommandGroup = 'contributors' | 'developer' | 'general' | 'moderation' | 'music';
 
 interface Command {
   names: Array<string>;

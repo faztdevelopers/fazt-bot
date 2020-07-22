@@ -13,6 +13,8 @@ export default class extends MessageEmbed {
       this.title += 'Comandos para desarrolladores';
     } else if (group === 'moderation') {
       this.title += 'Comandos para moderadores';
+    } else if (group === 'contributors') {
+      this.title += 'Comandos para contribuidores';
     } else if (group === 'general') {
       this.title += 'Comandos generales';
     } else if (group === 'music') {

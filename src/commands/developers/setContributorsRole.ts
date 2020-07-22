@@ -4,11 +4,11 @@ import Command, { sendMessage, deleteMessage, CommandGroup } from '../command';
 import { Message, Client } from 'discord.js';
 import * as Settings from '../../utils/settings';
 
-export default class SetModeratorRole implements Command {
-  names: Array<string> = ['setmodrole', 'setmoderatorrole', 'setmoderationrole'];
+export default class SetContributorsRole implements Command {
+  names: Array<string> = ['setcontributorsrole', 'setcontributorrole'];
   arguments = '(rol)';
   group: CommandGroup = 'developer';
-  description = 'Agrega un rol de moderador del servidor.';
+  description = 'Agrega un rol de contribuidor del servidor.';
 
   async onCommand(message: Message, bot: Client, alias: string, params: Array<string>): Promise<void> {
     try {
@@ -39,15 +39,15 @@ export default class SetModeratorRole implements Command {
         return;
       }
 
-      if (await Settings.hasByName('moderator_role')) {
-        await Settings.update('moderator_role', role.id);
+      if (await Settings.hasByName('contributor_role')) {
+        await Settings.update('contributor_role', role.id);
       } else {
-        await Settings.create('moderator_role', role.id);
+        await Settings.create('contributor_role', role.id);
       }
 
-      await deleteMessage(await sendMessage(message, `ahora ${role} es el rol de moderador del servidor.`, alias));
+      await deleteMessage(await sendMessage(message, `ahora ${role} es el rol de contribuidor del servidor.`, alias));
     } catch (error) {
-      console.error('Set Moderator Role Command', error);
+      console.error('Set Contributors Role Command', error);
     }
   }
 }
