@@ -14,6 +14,7 @@ export default async function addReactionRole(
   emoji: string,
   roleID: string,
   description: string,
+  warning: string,
   bot: Client,
 ): Promise<boolean> {
   if (!message.guild) {
@@ -58,6 +59,14 @@ export default async function addReactionRole(
     return false;
   }
 
+  if (warning === 'true') {
+    const warningRoleID = await Settings.getByName('warning_role');
+    if (!warningRoleID) {
+      await deleteMessage(await sendMessage(message, 'el rol de warning no está configurado.', alias));
+      return false;
+    }
+  }
+
   const reactions: Array<ReactionPart> = await getReactions(bot, message.guild);
   if (reactions.length) {
     let hasEmoji = false;
@@ -81,13 +90,19 @@ export default async function addReactionRole(
       return false;
     }
 
-    reactions.push({ emoji: isNative ? emoji : emojiPart.id, isNative, role, description });
+    reactions.push({
+      emoji: isNative ? emoji : emojiPart.id,
+      isNative,
+      role,
+      description,
+      removeWarning: warning === 'true',
+    });
 
     await Settings.update('reactions_manual', reactions.map((reaction) => (
-      `${reaction.emoji instanceof GuildEmoji ? reaction.emoji.id : reaction.emoji}|||${reaction.role.id}|||${reaction.description}`
+      `${reaction.emoji instanceof GuildEmoji ? reaction.emoji.id : reaction.emoji}|||${reaction.role.id}|||${reaction.description}${reaction.removeWarning ? '|||true' : ''}`
     )).join(';;'));
   } else {
-    await Settings.create('reactions_manual', `${isNative ? emoji : emojiPart.id}|||${role.id}|||${description}`);
+    await Settings.create('reactions_manual', `${isNative ? emoji : emojiPart.id}|||${role.id}|||${description}${warning === 'true' ? '|||true' : ''}`);
   }
 
   if (await updateRolesMessage(bot, message.guild)) {

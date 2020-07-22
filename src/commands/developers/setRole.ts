@@ -9,6 +9,7 @@ const roles: Array<string> = [
   'dj',
   'contributors', 'contributor', 'contribuidores', 'contribuidor',
   'moderators', 'moderator', 'moderadores', 'moderador',
+  'warning',
 ];
 
 export default class SetRole implements Command {
@@ -85,6 +86,15 @@ export default class SetRole implements Command {
         }
   
         await deleteMessage(await sendMessage(message, `ahora ${role.toString()} es el rol de moderador del servidor.`, alias));
+        return;
+      } else if (type === 'warning') {
+        if (await Settings.hasByName('warning_role')) {
+          await Settings.update('warning_role', role.id);
+        } else {
+          await Settings.create('warning_role', role.id);
+        }
+  
+        await deleteMessage(await sendMessage(message, `ahora ${role.toString()} es el rol de advertencias del servidor.`, alias));
         return;
       }
     } catch (error) {

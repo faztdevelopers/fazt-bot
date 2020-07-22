@@ -9,6 +9,7 @@ export interface ReactionPart {
   isNative: boolean;
   role: Role;
   description: string;
+  removeWarning?: boolean;
 }
 
 export async function getReactions(bot: Client, guild: Guild): Promise<Array<ReactionPart>> {
@@ -38,7 +39,13 @@ export async function getReactions(bot: Client, guild: Guild): Promise<Array<Rea
           continue;
         }
 
-        data.push({ emoji, isNative, role, description: subParts[2] });
+        data.push({
+          emoji,
+          isNative,
+          role,
+          description: subParts[2],
+          removeWarning: subParts[3] === 'true',
+        });
       }
     }
   }

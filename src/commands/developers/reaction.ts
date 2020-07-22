@@ -42,9 +42,10 @@ export default class Reaction implements Command {
       const roleID: string = (commandArguments['--role'] || commandArguments['--rol'] || commandArguments['-r'] || '').replace('<@&', '').replace('>', '').trim();
 
       if (type === 'add') {
-        const description: string = commandArguments['--description'] || commandArguments['-desc'] || commandArguments['-d'] || '';
+        const description: string = commandArguments['--description'] || commandArguments['--desc'] || commandArguments['-d'] || '';
+        const warning: string = commandArguments['--warning'] || commandArguments['-warn'] || commandArguments['-w'] || '';
 
-        await addReactionRole(message, alias, emoji, roleID, description, bot);
+        await addReactionRole(message, alias, emoji, roleID, description, warning, bot);
         return;
       } else if (type === 'remove') {
         await removeReactionRole(message, alias, emoji, roleID, bot);

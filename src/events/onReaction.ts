@@ -50,7 +50,14 @@ export default async function onReaction(
     }
 
     if (type === 'add') {
-      if (!member.roles.cache.has(react.role.id)) {
+      if (react.removeWarning === true) {
+        await reaction.users.remove(user.id);
+
+        const warningRoleID = await getByName('warning_role');
+        if (warningRoleID && member.roles.cache.has(warningRoleID.value)) {
+          await member.roles.remove(warningRoleID.value);
+        }
+      } else if (!member.roles.cache.has(react.role.id)) {
         await member.roles.add(react.role);
       }
     } else {
