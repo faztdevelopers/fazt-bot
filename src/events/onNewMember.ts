@@ -13,10 +13,6 @@ export default async function onNewMember (member: GuildMember | PartialGuildMem
     await member.user.fetch();
   }
 
-  if (member.user.username !== 'spyropruebas') {
-    return;
-  }
-
   // Send private message to user direct message
   const welcomePrivateMessage = await getByName('dm_welcomes_message');
   if (welcomePrivateMessage) {
