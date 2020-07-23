@@ -3,7 +3,7 @@
 import { MessageEmbed } from 'discord.js';
 
 export default class extends MessageEmbed {
-  constructor(serverName: string, userAvatar: string, userMention: string, username: string, offTopicChannel: string) {
+  constructor(serverName: string, userAvatar: string, message: string) {
     super();
 
     const colors: number[] = [
@@ -30,7 +30,7 @@ export default class extends MessageEmbed {
     this.color = colors[rand];
     this.title = `Bienvenid@ a ${serverName}`;
     this.setThumbnail(userAvatar);
-    this.description = `${userMention} (${username}), siéntete libre de hacer preguntas y conocer a otros desarrolladores con tus mismos intereses. Empieza en ${offTopicChannel}.`;
+    this.description = message;
     this.timestamp = Date.now();
   }
 }

@@ -4,6 +4,7 @@ import onMention from './onMention';
 import onMessage from './onMessage';
 import onNewMember from './onNewMember';
 import onOtherLangs from './onOtherLangs';
+import onReaction from './onReaction';
 import onReady from './onReady';
 
 export default {
@@ -11,5 +12,6 @@ export default {
   onMessage,
   onNewMember,
   onOtherLangs,
+  onReaction,
   onReady,
 };

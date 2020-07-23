@@ -25,14 +25,33 @@ export default class CommandsList implements Command {
         group = 'general';
       } else if (params[0] === 'developer' || params[0] === 'desarrollo' || params[0] === 'dev') {
         const devRole: string | null = (await getByName('developer_role'))?.value || null;
-        if (!message.member.hasPermission('ADMINISTRATOR') || (devRole && !message.member.roles.cache.has(devRole))) {
+        if (!devRole) {
+          return;
+        }
+
+        if (!message.member.hasPermission('ADMINISTRATOR') && !message.member.roles.cache.has(devRole)) {
           return;
         }
 
         group = 'developer';
+      } else if (params[0] === 'contributors' || params[0] === 'contributor' || params[0] === 'contribuidores') {
+        const contributorRole: string | null = (await getByName('contributor_role'))?.value || null;
+        if (!contributorRole) {
+          return;
+        }
+  
+        if (!message.member.hasPermission('ADMINISTRATOR') && !message.member.roles.cache.has(contributorRole)) {
+          return;
+        }
+
+        group = 'contributors';
       } else if (params[0] === 'moderation' || params[0] === 'moderación' || params[0] === 'mod') {
-        const devRole: string | null = (await getByName('moderation_role'))?.value || null;
-        if (!message.member.hasPermission('ADMINISTRATOR') || (devRole && !message.member.roles.cache.has(devRole))) {
+        const modRole: string | null = (await getByName('moderator_role'))?.value || null;
+        if (!modRole) {
+          return;
+        }
+
+        if (!message.member.hasPermission('ADMINISTRATOR') && !message.member.roles.cache.has(modRole)) {
           return;
         }
 
