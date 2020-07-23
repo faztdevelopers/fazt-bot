@@ -13,6 +13,6 @@
 * **zd4y** [GitHub](https://github.com/zd4y)
 * **Daniel Solarte** [GitHub](https://github.com/danielsolartech)
 * **YesnielX** [GitHub](https://github.com/YesnielX)
-* **Fluc**[GitHub](https://github.com/Fluc-UwU)
+* **Fluc** [GitHub](https://github.com/Fluc-UwU)
 
 # [License](./LICENSE)

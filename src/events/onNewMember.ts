@@ -13,13 +13,22 @@ export default async function onNewMember (member: GuildMember | PartialGuildMem
     await member.user.fetch();
   }
 
+  if (member.user.username !== 'spyropruebas') {
+    return;
+  }
+
   // Send private message to user direct message
   const welcomePrivateMessage = await getByName('dm_welcomes_message');
   if (welcomePrivateMessage) {
     await (member.user.dmChannel || await member.user.createDM()).send(
-      welcomePrivateMessage.value
-        .replace(/{@mention}/gi, member.user.toString())
-        .replace(/{@username}/gi, member.user.username)
+      new WelcomeEmbed(
+        'private',
+        '',
+        welcomePrivateMessage.value
+          .replace(/{@mention}/gi, member.user.toString())
+          .replace(/{@username}/gi, member.user.username),
+        member.guild,
+      )
     );
   }
 
@@ -39,13 +48,14 @@ export default async function onNewMember (member: GuildMember | PartialGuildMem
     return;
   }
 
-  await (welcomesChannel as TextChannel).send(
+  await welcomesChannel.send(
     new WelcomeEmbed(
-      member.guild.name,
+      'public',
       member.user.displayAvatarURL(),
       welcomePublicMessage.value
         .replace(/{@mention}/gi, member.user.toString())
-        .replace(/{@username}/gi, member.user.username)
-    )
+        .replace(/{@username}/gi, member.user.username),
+      member.guild,
+    ),
   );
 }
