@@ -11,20 +11,24 @@ export default class Tag implements Command {
   description = 'Responde con el contenido del tag si existe.';
 
   async onCommand(message: Message, bot: Client, alias: string, params: Array<string>): Promise<void> {
-    await message.delete();
-    
-    const title: string = params[0];
-    if (!title) {
-      await deleteMessage(await sendMessage(message, 'debes especificar un título.', alias));
-      return;
-    }
+    try {
+      await message.delete();
+      
+      const title: string = params[0];
+      if (!title) {
+        await deleteMessage(await sendMessage(message, 'debes especificar un título.', alias));
+        return;
+      }
 
-    const tag = await Tags.getByTitle(title);
-    if (!tag) {
-      await deleteMessage(await sendMessage(message, 'el tag con ese título no existe.', alias));
-      return;
-    }
+      const tag = await Tags.getByTitle(title);
+      if (!tag) {
+        await deleteMessage(await sendMessage(message, 'el tag con ese título no existe.', alias));
+        return;
+      }
 
-    await message.channel.send(tag.content);
+      await message.channel.send(tag.content);
+    } catch (error) {
+      console.error('Tag Command', error);
+    }
   }
 }
