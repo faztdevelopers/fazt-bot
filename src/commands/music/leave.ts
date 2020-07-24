@@ -9,7 +9,7 @@ export default class LeaveCommand implements Command {
   group: CommandGroup = 'music';
   description = 'Sacar al bot del canal de voz. (Si hay más de 2 oyentes se hará votación)';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
+  async onCommand(message: Message, bot: Client, alias: string, params: Array<string>): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;

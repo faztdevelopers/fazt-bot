@@ -11,7 +11,7 @@ export default class ListCommand implements Command {
   group: CommandGroup = 'music';
   description = 'Mira la lista de reproducción actual.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
+  async onCommand(message: Message, bot: Client, alias: string, params: Array<string>): Promise<void> {
     try {
       if (!message.guild) {
         return;
