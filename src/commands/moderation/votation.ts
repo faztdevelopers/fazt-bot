@@ -11,7 +11,7 @@ export default class Votation implements Command {
   group: CommandGroup = 'moderation';
   description = 'Realiza una nueva votacion para la comunidad.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
+  async onCommand(message: Message, bot: Client, alias: string, params: Array<string>): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;
@@ -39,7 +39,6 @@ export default class Votation implements Command {
       await message.delete();
 
       let msg: string = params.join(' ');
-
       if (!msg) {
         await deleteMessage(await sendMessage(message, 'la votacion está vacía.', alias));
         return;

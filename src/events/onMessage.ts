@@ -27,12 +27,10 @@ const onMessage = async (message: Message, bot: Client, prefix: string, commands
   }
 
   const params: string[] = message.content.slice(prefix.length).split(' ');
-  const alias: string = params[0];
-  const args: string[] = params.slice(1);
-  if (commandsCache.length) {
+  if (commandsCache.length && params.length) {
     for await (const command of commandsCache) {
-      if (command.names.includes(params[0].toLowerCase())) {
-        await command.onCommand(message, bot, args, alias);
+      if (command.names.includes((params[0] || '').toLowerCase())) {
+        await command.onCommand(message, bot, params.shift() || '', params);
       }
     }
   }

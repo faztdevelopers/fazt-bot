@@ -1,33 +1,57 @@
 // Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
 
-import { GuildMember, PartialGuildMember, Client, TextChannel } from 'discord.js';
-import { getByName as settingName } from '../utils/settings';
+import { GuildMember, PartialGuildMember, Client, Channel, TextChannel } from 'discord.js';
+import { getByName } from '../utils/settings';
 import WelcomeEmbed from '../embeds/welcomeEmbed';
 
-const onNewMember = async (member: GuildMember | PartialGuildMember, bot: Client): Promise<void> => {
+export default async function onNewMember (member: GuildMember | PartialGuildMember, bot: Client): Promise<void> {
   if (!member.user) {
     return;
   }
 
-  const welcomesID: string = (await settingName('welcomes_channel'))?.value || '';
-  const welcomesChannel = bot.channels.cache.get(welcomesID);
+  if (member.user.partial) {
+    await member.user.fetch();
+  }
 
-  const offTopicID: string = (await settingName('off_topic_channel'))?.value || '';
-  const offTopicChannel = bot.channels.cache.get(offTopicID);
+  // Send private message to user direct message
+  const welcomePrivateMessage = await getByName('dm_welcomes_message');
+  if (welcomePrivateMessage) {
+    await (member.user.dmChannel || await member.user.createDM()).send(
+      new WelcomeEmbed(
+        'private',
+        '',
+        welcomePrivateMessage.value
+          .replace(/{@mention}/gi, member.user.toString())
+          .replace(/{@username}/gi, member.user.username),
+        member.guild,
+      )
+    );
+  }
 
-  if (!welcomesChannel || welcomesChannel.type !== 'text' || !offTopicChannel) {
+  // Send public message to welcomes channel
+  const welcomesChannelID = await getByName('welcomes_channel');
+  if (!welcomesChannelID) {
     return;
   }
 
-  await (welcomesChannel as TextChannel).send(
-    new WelcomeEmbed(
-      member.guild.name,
-      member.user.displayAvatarURL(),
-      `<@${member.user.id}>`,
-      member.user.username,
-      offTopicChannel.toString(),
-    )
-  );
-};
+  const welcomesChannel = bot.channels.cache.get(welcomesChannelID.value);
+  if (!welcomesChannel || !(((o: Channel): o is TextChannel => o.type === 'text')(welcomesChannel))) {
+    return;
+  }
 
-export default onNewMember;
+  const welcomePublicMessage = await getByName('welcomes_message');
+  if (!welcomePublicMessage) {
+    return;
+  }
+
+  await welcomesChannel.send(
+    new WelcomeEmbed(
+      'public',
+      member.user.displayAvatarURL(),
+      welcomePublicMessage.value
+        .replace(/{@mention}/gi, member.user.toString())
+        .replace(/{@username}/gi, member.user.username),
+      member.guild,
+    ),
+  );
+}

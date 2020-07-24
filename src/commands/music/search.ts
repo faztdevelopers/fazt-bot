@@ -12,7 +12,7 @@ export default class SearchCommand implements Command {
   group: CommandGroup = 'music';
   description = 'Obtén los 10 primeros resultados de una búsqueda.';
 
-  async onCommand(message: Message, bot: Client, params: Array<string>, alias: string): Promise<void> {
+  async onCommand(message: Message, bot: Client, alias: string, params: Array<string>): Promise<void> {
     try {
       if (!message.guild || !message.member) {
         return;
@@ -31,7 +31,6 @@ export default class SearchCommand implements Command {
       }
 
       const search: string = params.join(' ');
-
       if (!search || !search.length) {
         await sendMessage(message, 'el parámetro de búsqueda está vacío.', alias);
         return;
@@ -70,7 +69,7 @@ export default class SearchCommand implements Command {
         const songData = results[i - 1];
         await songData.fetch();
         if (songData.durationSeconds > 600) {
-          await sendMessage(message, 'la duración del vídeo debe ser menor a 10 minutos.', params[0]);
+          await sendMessage(message, 'la duración del vídeo debe ser menor a 10 minutos.', alias);
           return;
         }
 
@@ -139,7 +138,7 @@ export default class SearchCommand implements Command {
         if (yt == null) {
           await sendMessage(message, 'el API excedió el límite de peticiones.', alias);
         } else {
-          await this.onCommand(message, bot, params, alias);
+          await this.onCommand(message, bot, alias, params);
         }
 
         return;

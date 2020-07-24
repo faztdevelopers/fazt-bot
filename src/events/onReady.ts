@@ -15,11 +15,11 @@ const onReady = (bot: Client, prefix: string): void => {
       name: `${prefix}info`,
     },
     {
-      type: 'LISTENING',
+      type: 'WATCHING',
       name: 'FaztTech en YouTube',
     },
     {
-      type: 'LISTENING',
+      type: 'WATCHING',
       name: 'FaztCode en YouTube',
     },
     {
