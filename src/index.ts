@@ -1,14 +1,16 @@
 // Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
 
-import { config } from 'dotenv';
 import { Client } from 'discord.js';
 import Command from './commands/command';
 import Commands from './commands';
 import { connect } from './database';
 import events from './events';
 
-// Load .env file
-config();
+// Load .env file in development
+if (process.env.NODE_ENV === 'development') {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  require('dotenv').config();
+}
 
 // Initialize the bot
 export const prefix: string = process.env.PREFIX || '!';

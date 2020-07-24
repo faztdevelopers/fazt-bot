@@ -1,6 +1,5 @@
 // Copyright 2020 Fazt Community ~ All rights reserved. MIT license.
 
-import { config } from 'dotenv';
 import { TextChannel, VoiceChannel, VoiceConnection, StreamDispatcher, MessageEmbed, DMChannel, NewsChannel, Message, MessageReaction, User, UserFlags, GuildChannel, GuildEmoji } from 'discord.js';
 import Song from './song';
 import { getByName as settingName } from './settings';
@@ -9,7 +8,11 @@ import { bot } from '..';
 import { sendMessage } from '../commands/command';
 import YouTube from 'simple-youtube-api';
 
-config();
+// Load .env file in development
+if (process.env.NODE_ENV === 'development') {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  require('dotenv').config();
+}
 
 export interface IQueue {
   textChannel: TextChannel | DMChannel | NewsChannel;
