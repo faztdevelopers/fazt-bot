@@ -20,14 +20,18 @@ export const create = async (userId: number, user: string, noteValue: string): P
   }
 };
 
-export const remove = async (notesPage: Notes.Note[], userId: number, id: number): Promise<void> => {
+export const remove = async (notesPage: Notes.Note[], userId: number, id: number): Promise<boolean> => {
   try {
-    notesPage.forEach(async (note, i) => {
-      if((i + 1) === id) {
-        await deleteNote(userId, note.noteId);
-      }
-    });   
+    if (id < 0) return false;
+    
+    const note = await Notes.model.findOne().skip(id - 1).limit(1);
+
+    if (!note) return false;
+    await note.deleteOne();
+
+    return true;
   } catch (error) {
     await Promise.reject(error);
+    return false;
   }
 };

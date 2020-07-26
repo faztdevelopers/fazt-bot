@@ -20,33 +20,18 @@ export default class Note implements Command {
 
       await message.delete();
       const note = params.join(' ').replace(params[0], '').trim();
-      const option: string = (params[0]).toLowerCase();
       let status: string;
 
       const user: User = message.author;
       const getNotes = await Notes.getNotes(Number(user.id));
       
       let notesPage = getNotes;
-      let pageView = 0;
-      let Pages = 0;
-      const ids: number[] = [];
-      const checkNote = async () => {
-        if(pageView === 1){
-          notesPage = notesPage.slice(0, 5);
-        } else {
-          notesPage = notesPage.slice(5, 10);
-        }
-        notesPage.forEach(async (n, i) => {
-          ids.push(i + 1);
-        });
-        if(ids.includes(Number(note))){
-          await Notes.remove(notesPage, Number(user.id), Number(note));
-          return;
-        } else {
-          status = 'El ``id`` de nota no existe.';
-        }
-      };
-  
+
+      let option: string | undefined = params[0];
+      
+      if (!option) return;
+      option = option.toLowerCase();
+
       switch (option) {
       case 'add': {
         status = 'Nota agregada';
@@ -55,59 +40,52 @@ export default class Note implements Command {
           return;
         }
 
-        if(getNotes.length > 9) {
-          status = 'Has llegado al limite de notas :(';
-          await deleteMessage(await sendMessage(message, 'Has llegado al limite de notas', alias));
+        if(note.length > 1024){
+          await deleteMessage(await sendMessage(message, 'El limite de una nota es de 500 Caracteres', alias)); 
           return;
-        } else {
-          if(note.length > 500){
-            await deleteMessage(await sendMessage(message, 'El limite de una nota es de 500 Caracteres', alias)); 
-            return;
-          }
-          await Notes.create(Number(user.id), user.username, note);
         }
+        await Notes.create(Number(user.id), user.username, note);
+
         await deleteMessage(await sendMessage(message, status, alias));
         break;
       }
       
       case 'page': {
-        status = 'Lista de notas';
         if(!getNotes.length) {
           await deleteMessage(await sendMessage(message, 'No tienes notas', alias));
           return;
         }
-        if(![1, 2].includes(Number(note))) {
+
+        const perPage = 5;
+        const start = (+note - 1) * perPage;
+        const end = start + perPage;
+
+        notesPage = notesPage.slice(start, end);
+
+        if (!notesPage.length) {
           await deleteMessage(await sendMessage(message, 'La página no existe', alias));
           return;
         }
-        if(getNotes.length > 5) Pages = 2; else Pages = 1;
-        if(Number(note) === 1){
-          notesPage = notesPage.slice(0, 5);
-          pageView = 1;
-        } else {
-          if(getNotes.length > 5){
-            pageView = 2;
-            notesPage = notesPage.slice(5, 10);
-          } else {
-            await deleteMessage(await sendMessage(message, 'La página no existe', alias));
-            return;
-          }
-        }
-        await message.channel.send(new notePageEmbed(Number(note), Pages, user, status, notesPage));
+
+        const pages = Math.ceil(getNotes.length / perPage);
+
+        status = 'Lista de notas';
+        await message.channel.send(new notePageEmbed(Number(note), pages, user, status, notesPage, start));
         break;
       }
 
       case 'delete': {
-        status = 'Nota eliminada.';
         if(!getNotes.length) {
           deleteMessage(await sendMessage(message, 'No tienes notas', alias));
           return;
         }
-        await checkNote();
+
+        const deleted = await Notes.remove(notesPage, Number(user.id), Number(note));
+        status = deleted ? 'Nota eliminada.' : 'La nota no existe.';
         await deleteMessage(await sendMessage(message, status, alias));
         break;
       }
-      
+
       default:
         await deleteMessage(await message.channel.send(new noteHelpEmbed()));
         break;
