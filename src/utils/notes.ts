@@ -3,11 +3,9 @@
 import * as Notes from '../database/models/note';
 import moment from 'moment';
 
-export const getNotes = async (userId: number): Promise<Notes.Note[]> => await Notes.model.find({userId}, (notes: []) => notes);
+export const getNotes = async (userId: string): Promise<Notes.Note[]> => await Notes.model.find({userId}, (notes: []) => notes);
 
-export const deleteNote = async (userId: number, noteId: number): Promise<Notes.Note | null> => await Notes.model.findOneAndDelete({userId, noteId});
-
-export const create = async (userId: number, user: string, noteValue: string): Promise<Notes.Note | null> => {
+export const create = async (userId: string, user: string, noteValue: string): Promise<Notes.Note | null> => {
   try {
     const noteId = Math.floor(Math.random() * (10000));
     const note: Notes.Note = new Notes.model({userId, user, note: noteValue, noteId, date: moment().locale('es').format('LLLT')});
@@ -20,11 +18,11 @@ export const create = async (userId: number, user: string, noteValue: string): P
   }
 };
 
-export const remove = async (notesPage: Notes.Note[], userId: number, id: number): Promise<boolean> => {
+export const remove = async (userId: string, id: number): Promise<boolean> => {
   try {
     if (id < 0) return false;
     
-    const note = await Notes.model.findOne().skip(id - 1).limit(1);
+    const note = await Notes.model.findOne({userId}).skip(id - 1).limit(1);
 
     if (!note) return false;
     await note.deleteOne();

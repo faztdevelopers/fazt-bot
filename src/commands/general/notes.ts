@@ -23,7 +23,7 @@ export default class Note implements Command {
       let status: string;
 
       const user: User = message.author;
-      const getNotes = await Notes.getNotes(Number(user.id));
+      const getNotes = await Notes.getNotes(user.id);
       
       let notesPage = getNotes;
 
@@ -41,10 +41,10 @@ export default class Note implements Command {
         }
 
         if(note.length > 1024){
-          await deleteMessage(await sendMessage(message, 'El limite de una nota es de 500 Caracteres', alias)); 
+          await deleteMessage(await sendMessage(message, 'El limite de una nota es de 1024 Caracteres', alias)); 
           return;
         }
-        await Notes.create(Number(user.id), user.username, note);
+        await Notes.create(user.id, user.username, note);
 
         await deleteMessage(await sendMessage(message, status, alias));
         break;
@@ -80,7 +80,7 @@ export default class Note implements Command {
           return;
         }
 
-        const deleted = await Notes.remove(notesPage, Number(user.id), Number(note));
+        const deleted = await Notes.remove(user.id, Number(note));
         status = deleted ? 'Nota eliminada.' : 'La nota no existe.';
         await deleteMessage(await sendMessage(message, status, alias));
         break;

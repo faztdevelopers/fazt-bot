@@ -3,16 +3,15 @@
 import { Document, Schema, model as mModel } from 'mongoose';
 
 export interface Note extends Document {
-  userId: number;
+  userId: string;
   user: string;
   note: string;
-  noteId: number;
   date: string;
 }
 
 const Note: Schema = new Schema({
   userId: {
-    type: Number,
+    type: String,
     required: true
   },
   user: {
@@ -21,10 +20,6 @@ const Note: Schema = new Schema({
   },
   note: {
     type: String,
-    required: true
-  },
-  noteId: {
-    type: Number,
     required: true
   },
   date: {
