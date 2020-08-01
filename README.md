@@ -8,6 +8,18 @@
 
 Fazt Bot is a multipurpose Discord bot only for Fazt Tech's server, with functions like suggestions, welcome messages, roles with reactions, programming quotes on bot mention, text translations, play music, and more.
 
+# Deploy
+
+```sh
+docker network create faztbot
+
+docker run -p 27017:27017 --name faztbot_db --network faztbot --restart always -e MONGO_INITDB_ROOT_USERNAME=<username> -e MONGO_INITDB_ROOT_PASSWORD=<password> -d mongo
+
+docker build . -t faztbot
+
+docker run --name faztbot --network faztbot --restart always -d --env-file ./.env faztbot
+```
+
 # Pre-requisites
 * [Node.JS](https://nodejs.org/en/) - v12 or newer
 * [MongoDB](https://www.mongodb.com/)
