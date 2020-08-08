@@ -62,22 +62,13 @@ export default class SetChannel implements Command {
         return;
       }
 
-      if (type === 'music' || type === 'música') {
-        if (await Settings.hasByName('music_channel')) {
-          await Settings.update('music_channel', channel.id);
-        } else {
-          await Settings.create('music_channel', channel.id);
-        }
-
-        await deleteMessage(await sendMessage(message, `ahora ${channel.toString()} es el canal de música.`, alias));
-        return;
-      } else if (type === 'suggestions' || type === 'sugerencias') {
+      if (type === 'suggestions' || type === 'sugerencias') {
         if (await Settings.hasByName('suggestion_channel')) {
           await Settings.update('suggestion_channel', channel.id);
         } else {
           await Settings.create('suggestion_channel', channel.id);
         }
-  
+
         await deleteMessage(await sendMessage(message, `ahora ${channel.toString()} es el canal de las sugerencias.`, alias));
         return;
       } else if (type === 'votations' || type === 'votaciones') {
@@ -86,7 +77,7 @@ export default class SetChannel implements Command {
         } else {
           await Settings.create('votation_channel', channel.id);
         }
-  
+
         await deleteMessage(await sendMessage(message, `ahora ${channel.toString()} es el canal de las votaciones.`, alias));
         return;
       } else if (type === 'other_langs' || type === 'no-spanish' || type === 'no-español') {
@@ -95,7 +86,7 @@ export default class SetChannel implements Command {
         } else {
           await Settings.create('others_langs_channel', channel.id);
         }
-  
+
         await deleteMessage(await sendMessage(message, `ahora ${channel.toString()} es el canal de idiomas extranjeros.`, alias));
         return;
       } else if (type === 'welcomes' || type === 'bienvenidas') {
@@ -104,7 +95,7 @@ export default class SetChannel implements Command {
         } else {
           await Settings.create('welcomes_channel', channel.id);
         }
-  
+
         await deleteMessage(await sendMessage(message, `ahora ${channel.toString()} es el canal de bienvenidas.`, alias));
         return;
       } else if (type === 'roles-reaction' || type === 'roles-reacción') {
@@ -113,11 +104,11 @@ export default class SetChannel implements Command {
         } else {
           await Settings.create('roles_channel', channel.id);
         }
-  
+
         await deleteMessage(await sendMessage(message, `ahora ${channel.toString()} es el canal de los roles por reacción.`, alias));
         return;
       }
-    } catch(error) {
+    } catch (error) {
       console.error('Set Channel Command', error);
     }
   }

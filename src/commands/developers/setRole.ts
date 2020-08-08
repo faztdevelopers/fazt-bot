@@ -60,22 +60,13 @@ export default class SetRole implements Command {
         return;
       }
 
-      if (type === 'dj') {
-        if (await Settings.hasByName('dj_role')) {
-          await Settings.update('dj_role', role.id);
-        } else {
-          await Settings.create('dj_role', role.id);
-        }
-  
-        await deleteMessage(await sendMessage(message, `ahora ${role.toString()} es el rol de DJ del bot.`, alias));
-        return;
-      } else if (type === 'contributors' || type === 'contributor' || type === 'contribuidores' || type === 'contribuidor') {
+      if (type === 'contributors' || type === 'contributor' || type === 'contribuidores' || type === 'contribuidor') {
         if (await Settings.hasByName('contributor_role')) {
           await Settings.update('contributor_role', role.id);
         } else {
           await Settings.create('contributor_role', role.id);
         }
-  
+
         await deleteMessage(await sendMessage(message, `ahora ${role.toString()} es el rol de contribuidor del servidor.`, alias));
         return;
       } else if (type === 'moderators' || type === 'moderator' || type === 'moderadores' || type === 'moderador') {
@@ -84,7 +75,7 @@ export default class SetRole implements Command {
         } else {
           await Settings.create('moderator_role', role.id);
         }
-  
+
         await deleteMessage(await sendMessage(message, `ahora ${role.toString()} es el rol de moderador del servidor.`, alias));
         return;
       } else if (type === 'warning') {
@@ -93,7 +84,7 @@ export default class SetRole implements Command {
         } else {
           await Settings.create('warning_role', role.id);
         }
-  
+
         await deleteMessage(await sendMessage(message, `ahora ${role.toString()} es el rol de advertencias del servidor.`, alias));
         return;
       }
