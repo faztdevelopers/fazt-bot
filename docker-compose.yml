@@ -1,0 +1,12 @@
+version: '2.0'
+services: 
+    bot:
+        build: .
+        volumes: 
+            - .:/usr/bot/
+        depends_on: 
+            - db
+        env_file: 
+            - .env
+    db:
+        image: mongo

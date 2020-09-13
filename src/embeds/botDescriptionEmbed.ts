@@ -17,8 +17,6 @@ export default class extends MessageEmbed {
       this.title += 'Comandos para contribuidores';
     } else if (group === 'general') {
       this.title += 'Comandos generales';
-    } else if (group === 'music') {
-      this.title += 'Comandos de música';
     } else {
       this.title += 'Lista de comandos';
     }
@@ -29,8 +27,6 @@ export default class extends MessageEmbed {
       for (const command of commandsCache) {
         if (!group) {
           if (command.group === 'developer' || command.group === 'moderation') {
-            continue;
-          } else if (isMusicChannel && command.group !== 'music') {
             continue;
           } else if (!isMusicChannel && command.group !== 'general') {
             continue;

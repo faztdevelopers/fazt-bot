@@ -5,6 +5,27 @@ import * as Tags from '../database/models/tag';
 export const getAll = async (): Promise<Tags.Tag[]> =>
   await Tags.model.find({});
 
+export interface TagsPage {
+  tags: Tags.Tag[];
+  page: number;
+  totalPages: number;
+}
+
+export const getPage = async (page: number): Promise<TagsPage> => {
+  const perPage = 5;
+  const start = (page - 1) * perPage;
+
+  const count = await Tags.model.find({}).estimatedDocumentCount();
+  const tags = await Tags.model.find({}).skip(start).limit(perPage);
+  const totalPages = Math.ceil(count / perPage);
+
+  return {
+    tags,
+    page,
+    totalPages,
+  };
+};
+
 export const getByTitle = async (title: string): Promise<Tags.Tag | null> =>
   await Tags.model.findOne({ title });
 
